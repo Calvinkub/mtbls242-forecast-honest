@@ -18,10 +18,18 @@ runnable via `--legacy-outcome --include-artifacts`, so the correction is reprod
 the literature-expected direction, measured as `y_12mo[j] - x_preop[j]`. Those same 11
 metabolites were model inputs.
 
-Across the 11 markers, `corr(baseline, change)` has median **−0.62** and reaches
-**−0.94**. That is arithmetic, not biology: a subject with an extreme baseline falls
-back toward the mean whether or not anything happened to them. The model was rewarded
-for reading the baseline, which it was given.
+Across the 11 markers, `corr(baseline, change)` has median **−0.62**, and reaches
+**−0.79** for `lipoproteins`. That is arithmetic, not biology: a subject with an extreme
+baseline falls back toward the mean whether or not anything happened to them. The model
+was rewarded for reading the baseline, which it was given.
+
+Ten of the eleven markers sit below −0.58. Only `glycine` (−0.09) is close to
+independent of its own baseline.
+
+> A raw scan reports −0.94 for `L-Lactic acid`, but that value is produced by a single
+> subject whose pre-operative abundance is recorded as 0 — a below-detection reading, not
+> a measurement. Excluding it gives −0.79. The median is unaffected either way; the
+> defect does not depend on that point.
 
 ### 2. The score sat below its own no-signal null
 

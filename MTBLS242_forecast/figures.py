@@ -204,6 +204,67 @@ def continuous_forecast_mae(plt, cont_dir: Path, out: Path) -> Path:
     return out
 
 
+def regression_to_the_mean(plt, out: Path) -> Path:
+    """The defect in one picture: raw change is a restatement of the baseline."""
+    from controls import residualize_change
+    from forecast_mtbls242 import load_longitudinal_pairs
+    from forecast_responder_pr_auc import MONOTONE_DIRECTIONS, marker_columns
+
+    _, x, y, metabolites = load_longitudinal_pairs()
+    idx, _ = marker_columns(metabolites)
+    correlations = [np.corrcoef(x[:, j], (y - x)[:, j])[0, 1] for j in idx]
+
+    # `lipoproteins` is shown rather than the single most extreme marker. The most
+    # extreme is L-Lactic acid at -0.94, but that value is produced by one subject whose
+    # pre-operative abundance is recorded as 0 - a below-detection reading, not a
+    # measurement (it falls to -0.79 without that point). Illustrating a real defect with
+    # a leverage artifact would be the same error this repo exists to correct.
+    # `lipoproteins` has no zero readings and sits at -0.78.
+    shown = "lipoproteins"
+    position = list(MONOTONE_DIRECTIONS).index(shown)
+    column = idx[position]
+    name = shown
+
+    fit = residualize_change(x[:, idx], y[:, idx], np.arange(len(x)))
+    residual = fit.transform(x[:, idx], y[:, idx])[:, position]
+    worst = column
+
+    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(9.6, 4.3), sharex=True)
+
+    raw_change = (y - x)[:, worst]
+    ax.scatter(x[:, worst], raw_change, s=26, alpha=0.7, color="#b2182b",
+               edgecolor="white", lw=0.5)
+    slope, intercept = np.polyfit(x[:, worst], raw_change, 1)
+    span = np.linspace(x[:, worst].min(), x[:, worst].max(), 50)
+    ax.plot(span, slope * span + intercept, color="#7a1020", lw=1.6)
+    ax.axhline(0, color="#999999", lw=0.9, ls="--")
+    ax.set_xlabel(f"Pre-operative {name} (log1p) — a model FEATURE")
+    ax.set_ylabel("Raw 12-month change")
+    ax.set_title(f"Retired outcome used this\nr = {correlations[position]:.2f}", fontsize=10)
+
+    ax2.scatter(x[:, worst], residual, s=26, alpha=0.7, color="#1f6f8b",
+                edgecolor="white", lw=0.5)
+    ax2.axhline(0, color="#999999", lw=0.9, ls="--")
+    ax2.set_xlabel(f"Pre-operative {name} (log1p)")
+    ax2.set_ylabel("Residualized change")
+    ax2.set_title(
+        f"Current outcome uses this\nr = {np.corrcoef(x[:, worst], residual)[0, 1]:.2f}",
+        fontsize=10,
+    )
+
+    fig.suptitle(
+        "The retired outcome was a restatement of the input\n"
+        f"Across all 11 markers: median r = {np.median(correlations):.2f}; "
+        f"10 of 11 below -0.58",
+        fontsize=11, y=1.0,
+    )
+    _footer(fig, PROVENANCE)
+    fig.tight_layout(rect=(0, 0.07, 1, 0.90))
+    fig.savefig(out, bbox_inches="tight")
+    plt.close(fig)
+    return out
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--graph-dir", type=Path, default=GRAPH_DIR)
@@ -227,6 +288,7 @@ def main() -> None:
         continuous_forecast_mae(
             plt, args.continuous_dir, args.graph_dir / "continuous_forecast_mae.png"
         ),
+        regression_to_the_mean(plt, args.graph_dir / "regression_to_the_mean.png"),
     ]
     for path in written:
         print(f"wrote {path}")

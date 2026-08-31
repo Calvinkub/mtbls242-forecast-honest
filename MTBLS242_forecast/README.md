@@ -90,11 +90,12 @@ python -m pip install -r requirements.txt
 python forecast_mtbls242.py
 python forecast_responder_pr_auc.py
 python figures.py
+python make_deck.py
 python -m pytest tests/ -q
 ```
 
 The analysis scripts need only NumPy, pandas, and SciPy. matplotlib is needed for
-`figures.py` alone.
+`figures.py`, and python-pptx for `make_deck.py`.
 
 ### Flags
 
@@ -115,6 +116,7 @@ The analysis scripts need only NumPy, pandas, and SciPy. matplotlib is needed fo
 | [`forecast_mtbls242.py`](forecast_mtbls242.py) | Continuous profile forecast |
 | [`forecast_responder_pr_auc.py`](forecast_responder_pr_auc.py) | Responder forecast |
 | [`figures.py`](figures.py) | Regenerates `Graph/` at 300 DPI |
+| [`make_deck.py`](make_deck.py) | Builds the presentation deck from the summary JSONs |
 | [`METHODS.md`](METHODS.md) | Why each control exists |
 | [`CORRECTION.md`](CORRECTION.md) | The retired PR-AUC 0.671 claim |
 | `tests/` | 42 tests, each against a case with a known answer |
@@ -143,6 +145,12 @@ states the conclusion those controls support.
 - Treatment type and clinical covariates are absent from the public sample sheet.
 - The three mid time points (3, 6, 9 months) are unused; only preop and 12 months are
   paired.
+- **`(R)-3-Hydroxybutyric acid` is 45% zeros** (32/71 pre-operative, 27/71 twelve-month).
+  These are almost certainly below-detection readings rather than true absence, and
+  `log1p` maps them to exactly 0, so the metabolite is treated as if it were measured at
+  zero. It is left unconstrained and is not among the outcome markers, so it does not
+  affect the responder verdict, but its per-metabolite continuous result should not be
+  read as a measurement. Six other metabolites carry one or two zeros each.
 
 ## Data provenance
 

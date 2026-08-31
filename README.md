@@ -65,6 +65,7 @@ cd MTBLS242_forecast
 python forecast_mtbls242.py          # continuous 12-month profile forecast
 python forecast_responder_pr_auc.py  # responder forecast + controls
 python figures.py                    # regenerate Graph/ at 300 DPI
+python make_deck.py                  # build the presentation deck
 python -m pytest tests/ -q           # 42 tests
 ```
 
@@ -76,7 +77,11 @@ python forecast_responder_pr_auc.py --legacy-outcome --include-artifacts \
 ```
 
 The analysis scripts need only NumPy, pandas, and SciPy. matplotlib is needed for
-`figures.py` alone.
+`figures.py`, and python-pptx for `make_deck.py`.
+
+A 13-slide walkthrough of the correction is at
+[`mtbls242_forecast_correction.pptx`](MTBLS242_forecast/mtbls242_forecast_correction.pptx);
+every number on it is read from the summary JSONs, so it cannot drift from the results.
 
 ## Data
 
