@@ -1,0 +1,55 @@
+{
+  "task": "one-step autoregressive forecast across consecutive follow-ups",
+  "n_samples_in_panel": 465,
+  "n_subjects": 107,
+  "n_transitions": 346,
+  "transitions_per_step": {
+    "preop -> 3 months after surgery": 98,
+    "3 months after surgery -> 6 months after surgery": 92,
+    "6 months after surgery -> 9 months after surgery": 90,
+    "9 months after surgery -> 12 months after surgery": 66
+  },
+  "features_used": 18,
+  "artifact_features_dropped": [
+    "isopropanol",
+    "methanol",
+    "Dimethyl sulfone"
+  ],
+  "evaluation": "subject-grouped 5-fold CV; a subject never spans folds",
+  "alphas_selected": [
+    100.0,
+    100.0,
+    100.0,
+    100.0,
+    100.0
+  ],
+  "model_mae": 0.32209755370348575,
+  "persistence_mae": 0.4049175899951163,
+  "mean_baseline_mae": 0.31788903952810166,
+  "CONTROL_vs_persistence": -0.08282003629163054,
+  "CONTROL_vs_persistence_ci95": [
+    -0.09911999337252865,
+    -0.06753039618116802
+  ],
+  "CONTROL_beats_persistence": true,
+  "CONTROL_vs_mean_baseline": 0.004208514175384093,
+  "CONTROL_vs_mean_baseline_ci95": [
+    -0.0026095101095884323,
+    0.011033101399232359
+  ],
+  "CONTROL_beats_mean_baseline": false,
+  "iterated_vs_direct": {
+    "n_subjects_complete": 60,
+    "iterated_mae": 0.3195953401082669,
+    "direct_mae": 0.2991265131847312,
+    "persistence_mae": 0.4154632912493871,
+    "iterated_minus_direct": 0.020468826923535688,
+    "iterated_minus_direct_ci95": [
+      0.003947012442170487,
+      0.0365031773416448
+    ],
+    "iterated_beats_direct": false,
+    "VERDICT": "Walking the trajectory is not better than forecasting 12 months directly."
+  },
+  "VERDICT": "One-step AR beats persistence but not the per-timepoint mean."
+}

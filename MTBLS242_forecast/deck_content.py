@@ -24,6 +24,7 @@ CONTENT = {
         "kicker_fix": "the fix",
         "kicker_says": "what it actually says",
         "kicker_other": "the other experiment",
+        "kicker_ar": "using every time point",
         "kicker_takeaway": "takeaway",
         "kicker_scope": "honest scope",
 
@@ -162,6 +163,52 @@ CONTENT = {
             "differences between metabolites. Median\nper-metabolite R² is {medr2:.3f}."
         ),
 
+        "ar_title": "Using the whole trajectory",
+        "ar_lead": (
+            "The pairwise experiments use 142 of 465 samples — 3, 6 and 9 months were "
+            "discarded entirely.\nUsing them gives roughly five times more training data."
+        ),
+        "ar_metrics": [
+            "consecutive transitions\n(vs 71 pairs)",
+            "samples used\n(vs 142)",
+            "subjects with a complete\n5-point trajectory",
+        ],
+        "ar_foot": (
+            "Subject-grouped 5-fold CV — one subject contributes up to four transitions, "
+            "so splitting rows at random\nwould put the same person in train and test. "
+            "Persistence, not the cohort mean, is the baseline that matters over a "
+            "three-month gap."
+        ),
+
+        "ar2_title": "Five times the data, same conclusion",
+        "ar2_punch": (
+            "Knowing a subject's own profile at time t does not beat simply knowing\n"
+            "what the cohort looks like at time t+1."
+        ),
+        "ar2_rows": [
+            ("6→9 months is the one window where the individual matters",
+             "the only transition where the model beats BOTH persistence and the mean — "
+             "n=90, one window of four, uncorrected for multiplicity"),
+            ("After surgery, everyone converges",
+             "preop→3mo: persistence collapses to 0.518 because surgery moves the "
+             "metabolome hard — but the mean wins, the starting point stops mattering"),
+            ("By 9→12 months everything has plateaued",
+             "model, persistence and mean sit within 0.008 of each other; nothing beats "
+             "anything"),
+        ],
+        "ar3_title": "Iterated vs direct — walking the trajectory loses",
+        "ar3_body": (
+            "Rolling the one-step model forward four times (preop→3→6→9→12) and scoring "
+            "at 12 months,\nagainst the direct preop→12mo ridge, on the same 60 complete "
+            "subjects."
+        ),
+        "ar3_punch": (
+            "Iterated − direct = +0.021 (95% CI +0.004 to +0.037) — the interval excludes "
+            "zero.\nError compounds across four steps, and each step's shrinkage pulls "
+            "the forecast further toward the mean.\n\nIf you want the 12-month profile, "
+            "forecast it directly."
+        ),
+
         "reuse_title": "The controls, reusable",
         "reuse_items": [
             ("No-learning scorer",
@@ -209,6 +256,7 @@ CONTENT = {
         "kicker_fix": "สิ่งที่แก้ไข",
         "kicker_says": "ผลที่แท้จริง",
         "kicker_other": "อีกการทดลองหนึ่ง",
+        "kicker_ar": "ใช้ข้อมูลทุกช่วงเวลา",
         "kicker_takeaway": "สิ่งที่นำไปใช้ต่อได้",
         "kicker_scope": "ขอบเขตที่ซื่อตรง",
 
@@ -348,6 +396,48 @@ CONTENT = {
             "อย่างไรก็ตามมันชนะ persistence baseline อย่างชัดเจน\n\n"
             "ค่า R² รวมที่ {r2:.3f} ไม่ใช่ตัวชี้วัดประสิทธิภาพ เพราะเกิดจากความต่างของสเกลระหว่าง"
             "เมตาโบไลต์\nค่ามัธยฐาน R² รายเมตาโบไลต์อยู่ที่ {medr2:.3f}"
+        ),
+
+        "ar_title": "ใช้ trajectory ทั้งเส้น",
+        "ar_lead": (
+            "การทดลองแบบจับคู่ใช้ตัวอย่างแค่ 142 จาก 465 — ข้อมูลเดือนที่ 3, 6 และ 9 ถูกทิ้งทั้งหมด\n"
+            "ถ้านำมาใช้ จะได้ข้อมูลเทรนเพิ่มขึ้นราว 5 เท่า"
+        ),
+        "ar_metrics": [
+            "transition ที่ต่อเนื่องกัน\n(เทียบกับ 71 คู่)",
+            "ตัวอย่างที่ใช้จริง\n(เทียบกับ 142)",
+            "ผู้ป่วยที่มี trajectory\nครบทั้ง 5 จุด",
+        ],
+        "ar_foot": (
+            "ใช้ subject-grouped 5-fold CV — ผู้ป่วย 1 คนให้ transition ได้ถึง 4 อัน "
+            "ถ้าแบ่ง fold แบบสุ่มรายแถว\nคนเดียวกันจะไปอยู่ทั้ง train และ test "
+            "และในช่วงห่าง 3 เดือน baseline ที่ต้องเอาชนะคือ persistence ไม่ใช่ค่าเฉลี่ยของ cohort"
+        ),
+
+        "ar2_title": "ข้อมูลเพิ่ม 5 เท่า แต่ข้อสรุปเหมือนเดิม",
+        "ar2_punch": (
+            "การรู้โปรไฟล์ของผู้ป่วยคนนั้นเองที่เวลา t ไม่ได้ดีไปกว่า\n"
+            "การรู้แค่ว่า cohort โดยรวมหน้าตาเป็นอย่างไรที่เวลา t+1"
+        ),
+        "ar2_rows": [
+            ("ช่วง 6→9 เดือน คือช่วงเดียวที่ข้อมูลรายบุคคลมีความหมาย",
+             "เป็น transition เดียวที่โมเดลชนะทั้ง persistence และค่าเฉลี่ย — n=90 "
+             "เป็นแค่ 1 ใน 4 ช่วง และยังไม่ได้แก้ค่าจากการทดสอบหลายครั้ง"),
+            ("หลังผ่าตัด ทุกคนลู่เข้าหากัน",
+             "preop→3mo: persistence พังไปที่ 0.518 เพราะการผ่าตัดเปลี่ยนเมตาบอลิซึมอย่างแรง "
+             "— แต่ค่าเฉลี่ยชนะ จุดตั้งต้นของแต่ละคนหมดความสำคัญ"),
+            ("พอถึงช่วง 9→12 เดือน ทุกอย่างนิ่งหมดแล้ว",
+             "โมเดล persistence และค่าเฉลี่ย ต่างกันไม่ถึง 0.008 ไม่มีอะไรชนะอะไร"),
+        ],
+        "ar3_title": "Iterated เทียบกับ direct — เดินตาม trajectory แพ้",
+        "ar3_body": (
+            "เอาโมเดล one-step มาเดินต่อ 4 รอบ (preop→3→6→9→12) แล้ววัดผลที่ 12 เดือน\n"
+            "เทียบกับ ridge ที่ทำนาย preop→12mo ตรง ๆ บนผู้ป่วย 60 คนที่มีข้อมูลครบชุดเดียวกัน"
+        ),
+        "ar3_punch": (
+            "Iterated − direct = +0.021 (95% CI +0.004 ถึง +0.037) — ช่วงความเชื่อมั่นไม่คร่อมศูนย์\n"
+            "ความคลาดเคลื่อนสะสมทบกัน 4 ชั้น และการ shrink ในแต่ละก้าวก็ดึงคำทำนายเข้าหาค่าเฉลี่ยมากขึ้นเรื่อย ๆ\n\n"
+            "ถ้าต้องการโปรไฟล์ที่ 12 เดือน ให้ทำนายตรง ๆ ไปเลย"
         ),
 
         "reuse_title": "ตัวควบคุมที่นำไปใช้ซ้ำได้",

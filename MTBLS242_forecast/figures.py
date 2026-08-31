@@ -265,11 +265,88 @@ def regression_to_the_mean(plt, out: Path) -> Path:
     return out
 
 
+def autoregressive_trajectory(plt, ar_dir: Path, out: Path) -> Path:
+    """Per-transition error against both baselines, plus iterated vs direct."""
+    summary = json.loads((ar_dir / "summary_ar.json").read_text())
+    import csv
+
+    with (ar_dir / "per_transition_metrics.csv").open() as fh:
+        rows = list(csv.DictReader(fh))
+
+    short = {
+        "preop -> 3 months after surgery": "preop→3mo\n(surgery)",
+        "3 months after surgery -> 6 months after surgery": "3→6mo",
+        "6 months after surgery -> 9 months after surgery": "6→9mo",
+        "9 months after surgery -> 12 months after surgery": "9→12mo",
+    }
+    labels = [short.get(r["transition"], r["transition"]) for r in rows]
+    n = [int(r["n"]) for r in rows]
+    model = [float(r["model_mae"]) for r in rows]
+    persist = [float(r["persistence_mae"]) for r in rows]
+    mean_b = [float(r["mean_baseline_mae"]) for r in rows]
+
+    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(10.2, 4.5),
+                                  gridspec_kw={"width_ratios": [1.55, 1]})
+
+    pos = np.arange(len(rows))
+    width = 0.26
+    ax.bar(pos - width, persist, width, color="#bbbbbb", label="Persistence (carry forward)")
+    ax.bar(pos, mean_b, width, color="#1f6f8b", label="Per-timepoint mean")
+    ax.bar(pos + width, model, width, color="#b2182b", label="Autoregressive ridge")
+    for i, r in enumerate(rows):
+        if r["beats_mean_baseline"] == "True":
+            ax.text(i + width, model[i] + 0.012, "★", ha="center", fontsize=13,
+                    color="#b2182b")
+    ax.set_xticks(pos)
+    ax.set_xticklabels([f"{l}\nn={c}" for l, c in zip(labels, n)], fontsize=8)
+    ax.set_ylabel("Held-out MAE (log1p)")
+    ax.set_title("One-step forecast, per transition\n★ = beats BOTH baselines", fontsize=10)
+    ax.legend(fontsize=7.4, loc="upper right")
+    ax.set_ylim(0, max(persist) * 1.22)
+
+    it = summary["iterated_vs_direct"]
+    names = ["Persistence\n(preop carried\nto 12mo)", "Iterated\npreop→3→6→9→12",
+             "Direct\npreop→12mo"]
+    vals = [it["persistence_mae"], it["iterated_mae"], it["direct_mae"]]
+    colors = ["#bbbbbb", "#7a1020", "#b2182b"]
+    ax2.bar(range(3), vals, 0.55, color=colors)
+    for i, v in enumerate(vals):
+        ax2.text(i, v + 0.006, f"{v:.3f}", ha="center", fontsize=8.5)
+    ax2.set_xticks(range(3))
+    ax2.set_xticklabels(names, fontsize=7.6)
+    ax2.set_ylabel("MAE at 12 months (log1p)")
+    ci = it["iterated_minus_direct_ci95"]
+    ax2.set_title(
+        f"Iterated vs direct, {it['n_subjects_complete']} complete subjects\n"
+        f"iterated − direct = {it['iterated_minus_direct']:+.4f} "
+        f"(95% CI {ci[0]:+.4f} to {ci[1]:+.4f})",
+        fontsize=9,
+    )
+    ax2.set_ylim(0, max(vals) * 1.2)
+
+    fig.suptitle(
+        f"MTBLS242 — autoregressive forecast across 3 / 6 / 9 / 12-month follow-ups\n"
+        f"{summary['VERDICT']}",
+        fontsize=11, y=1.0,
+    )
+    _footer(
+        fig,
+        f"Data: MetaboLights MTBLS242 serum 1H-NMR, {summary['n_samples_in_panel']} samples "
+        f"from {summary['n_subjects']} subjects, {summary['n_transitions']} consecutive "
+        f"transitions\nEvaluation: {summary['evaluation']}",
+    )
+    fig.tight_layout(rect=(0, 0.08, 1, 0.90))
+    fig.savefig(out, bbox_inches="tight")
+    plt.close(fig)
+    return out
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--graph-dir", type=Path, default=GRAPH_DIR)
     parser.add_argument("--pr-dir", type=Path, default=ROOT / "outputs_pr_auc")
     parser.add_argument("--continuous-dir", type=Path, default=ROOT / "outputs")
+    parser.add_argument("--ar-dir", type=Path, default=ROOT / "outputs_ar")
     args = parser.parse_args()
     args.graph_dir.mkdir(parents=True, exist_ok=True)
 
@@ -289,6 +366,7 @@ def main() -> None:
             plt, args.continuous_dir, args.graph_dir / "continuous_forecast_mae.png"
         ),
         regression_to_the_mean(plt, args.graph_dir / "regression_to_the_mean.png"),
+        autoregressive_trajectory(plt, args.ar_dir, args.graph_dir / "autoregressive.png"),
     ]
     for path in written:
         print(f"wrote {path}")

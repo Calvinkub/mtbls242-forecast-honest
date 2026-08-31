@@ -1,0 +1,347 @@
+subject_id,from_timepoint,to_timepoint,transition,mae_model,mae_persistence,mae_mean_baseline
+0001,preop,3 months after surgery,preop -> 3 months after surgery,0.3504203184864258,0.5012328754978619,0.28376526204323027
+0001,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.36856125899457604,0.551853751586139,0.35149678325069805
+0001,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.14943955591970903,0.36093002367828414,0.21406909961493634
+0002,preop,3 months after surgery,preop -> 3 months after surgery,0.19853151942828454,0.2868546706033721,0.27513460731957434
+0002,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.24223852531004347,0.28222072679022636,0.1861493899488602
+0002,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.32981111425266174,0.24407916058476856,0.3711842385457015
+0003,preop,3 months after surgery,preop -> 3 months after surgery,0.20894309182062512,0.23843694232765708,0.2603435811695026
+0003,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2802368869454932,0.1741522686230221,0.2794031364637543
+0003,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.45154526961956815,0.4645730179463835,0.49331443488533633
+0003,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.28349468221819485,0.21277136454694404,0.42031654702906185
+0004,preop,3 months after surgery,preop -> 3 months after surgery,0.35122779354467437,0.6207409936729713,0.2678772268247309
+0004,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3491200101702179,0.462571003860498,0.4567230483932598
+0004,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.25615544901870496,0.32286016877383006,0.28881638234118756
+0008,preop,3 months after surgery,preop -> 3 months after surgery,0.4358198722680589,0.4027800357399735,0.4865194601741611
+0008,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.30902711813001815,0.4578455092840625,0.24631671715679287
+0008,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1988189209186727,0.4062290135190114,0.19097236563898634
+0008,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.14554834280091333,0.24146165012979276,0.12128127802965835
+0009,preop,3 months after surgery,preop -> 3 months after surgery,0.2967690287317805,0.22819453494637898,0.3946000555460446
+0009,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3128552799855809,0.20608600068765567,0.3777265112532457
+0009,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3362475782348038,0.25821493457270356,0.3337835323369642
+0009,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.2731563930856869,0.29219636068932103,0.2292605577804276
+0012,preop,3 months after surgery,preop -> 3 months after surgery,0.23985523830923816,0.25173160134193506,0.1943594880909783
+0012,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.21074079424593015,0.2950765511029456,0.18643961082891028
+0012,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2477689418038359,0.3431227288574972,0.2238323552300891
+0014,preop,3 months after surgery,preop -> 3 months after surgery,0.27401904737329,0.5087062849596158,0.2125053949099007
+0014,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.30189542046212436,0.22090500646107122,0.2847213480674804
+0014,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3078488551379012,0.3596208153682877,0.3080943702447272
+0014,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.17498919684992575,0.34404419481131837,0.1347225618671542
+0025,preop,3 months after surgery,preop -> 3 months after surgery,0.6823871976991298,0.9014228415599832,0.5796872933131377
+0025,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.30176219216395367,0.38702517635096456,0.3906422781135091
+0025,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1664671098156073,0.39472997369594925,0.14098453843804384
+0027,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2531679423265266,0.2723295067634046,0.2556881031176432
+0027,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.2157488906415485,0.25390938387299977,0.28206469985592036
+0029,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.17779160984343223,0.19440735909168905,0.20654419828092246
+0029,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3046644443328914,0.17217460715392946,0.24502974202927452
+0030,preop,3 months after surgery,preop -> 3 months after surgery,0.20003643989996972,0.43641111130413696,0.17059029337267137
+0030,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.39480568103112124,0.3438652216419081,0.3778895858435797
+0030,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.34860880755895596,0.2777213164110859,0.34249782332733975
+0033,preop,3 months after surgery,preop -> 3 months after surgery,0.4160998107275793,0.5443999772399049,0.3539844200002101
+0033,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.9043037927717982,0.8760227570429865,0.9447427477005669
+0033,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.4504804688821116,0.9915478414384152,0.3244841327794821
+0033,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.36652074058137507,0.4581831806680903,0.3493386803226142
+0037,preop,3 months after surgery,preop -> 3 months after surgery,0.5085223737259449,0.5211663281005701,0.5126589975749525
+0037,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.4820811892374988,0.8829341250278424,0.4208470673812996
+0037,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.658125696959448,0.825863387215273,0.6594732313294206
+0037,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.42666105249098574,0.4517623925031226,0.4488894007773319
+0038,preop,3 months after surgery,preop -> 3 months after surgery,0.2436136329941758,0.5652610318565608,0.22257228291914494
+0038,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.25804081383620736,0.43019257143230594,0.26115902296682836
+0038,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.21152683031576616,0.14404632121523575,0.19026896515504013
+0038,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.360429129157207,0.29667592037575324,0.3584088186632761
+0041,preop,3 months after surgery,preop -> 3 months after surgery,0.3091369742022761,0.35725393220717827,0.2626836631279866
+0041,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.48744852019828233,0.5351841445904233,0.4080207057661245
+0041,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.4857923233572657,0.663912788176844,0.39692655070675853
+0041,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3276599196365098,0.3352221101720621,0.24129770403463052
+0045,preop,3 months after surgery,preop -> 3 months after surgery,0.43742219009027805,0.6868799855630906,0.33650546312153085
+0045,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.29638192703742744,0.5905612279788256,0.2978128897844827
+0045,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3504294852263726,0.2534586766647749,0.3219193476892153
+0046,preop,3 months after surgery,preop -> 3 months after surgery,0.3407947306702416,0.20774465239274975,0.46251151956359116
+0046,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.381287252558079,0.5621674147976603,0.3401906246229135
+0046,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.22617387142339837,0.31322798873062163,0.2763669920914932
+0046,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.31458269855825827,0.24687698847855305,0.3864749085318915
+0052,preop,3 months after surgery,preop -> 3 months after surgery,0.5247724873152558,0.8617960189135412,0.3978890352706659
+0052,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3150601909463957,0.4376293015804798,0.3459711269258847
+0052,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2843529385303492,0.18753631891371056,0.3407040174621031
+0053,preop,3 months after surgery,preop -> 3 months after surgery,0.21323357469855128,0.26665847650595054,0.19308030238285448
+0053,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.36533913981972577,0.2806357823513015,0.37812941369878866
+0053,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1884526482236665,0.3974921425966753,0.30569333856923
+0053,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.2140478830843059,0.2677954394827846,0.2722547304969847
+0054,preop,3 months after surgery,preop -> 3 months after surgery,0.38307453809108805,0.5997308331876776,0.36528640505927984
+0054,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.253659789489872,0.3848323994047225,0.2845663084655858
+0054,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2601150555707501,0.4429487445134225,0.23029008876841722
+0054,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.17240074653850984,0.27754596455197844,0.22404913705188256
+0055,preop,3 months after surgery,preop -> 3 months after surgery,0.2651977479522405,0.588730984650566,0.23640922318485544
+0055,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.39403397475160556,0.3876661464340374,0.35515030947436244
+0055,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.366058223909484,0.5607410006363259,0.2882028912297169
+0058,preop,3 months after surgery,preop -> 3 months after surgery,0.32195944936292054,0.5503805174993068,0.2291323657402881
+0058,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.23167679458178914,0.42980016214293687,0.2218564727130433
+0058,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1401657392257309,0.23403671892142214,0.1460604341722427
+0063,preop,3 months after surgery,preop -> 3 months after surgery,0.21544985164864466,0.29164006566464135,0.17875870018630502
+0063,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.26181289259606194,0.21439772286739528,0.24340556986176415
+0063,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2839487595852705,0.3722885922541031,0.3091352704382453
+0063,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.27772895290895694,0.3648779318271829,0.30262992668137406
+0069,preop,3 months after surgery,preop -> 3 months after surgery,0.4543109865117701,0.49385926295472315,0.3383263380651027
+0069,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2487442378592533,0.6007435862487548,0.24123742913374718
+0069,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.31785686944660085,0.2940883162016062,0.31298912078999724
+0069,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3291363290577483,0.18499631706755296,0.33088652098114774
+0073,preop,3 months after surgery,preop -> 3 months after surgery,0.49240445727560556,0.7576240486536783,0.43408752295608904
+0073,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.23688524336348468,0.5180934765364107,0.2607295028309124
+0073,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.27595889476343965,0.30166974702411126,0.28725285626045566
+0079,preop,3 months after surgery,preop -> 3 months after surgery,0.25124962971685916,0.5377736415669309,0.19048377851185364
+0079,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3576702201832968,0.48806129506173135,0.33325561627004574
+0079,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2068047574012947,0.26212158234410526,0.26116996184373104
+0079,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.2291205543505577,0.24165736241400207,0.22402514441290103
+0081,preop,3 months after surgery,preop -> 3 months after surgery,0.3321754661631805,0.46991371020809286,0.27273709165547233
+0081,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.25436674467675546,0.35614419627722793,0.21223206958182678
+0081,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.24268574880851418,0.28671771858417266,0.30515346094920065
+0089,preop,3 months after surgery,preop -> 3 months after surgery,0.260985545972087,0.34861707041465,0.2686288294764203
+0089,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3495270100208907,0.5538643159151998,0.3082894094803625
+0089,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2999883780456091,0.18456719076418837,0.32635348099230044
+0089,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.26353392438251644,0.3141136974732146,0.2984770127288864
+0092,preop,3 months after surgery,preop -> 3 months after surgery,0.2767880590624828,0.31778588220140036,0.36448058343912026
+0092,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.5598961407339371,0.6510571305871141,0.4867273462982305
+0092,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.17435814061550678,0.3613697600721218,0.26166190972445436
+0095,preop,3 months after surgery,preop -> 3 months after surgery,0.29756113978001547,0.42564913116702074,0.20402632158352088
+0095,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2970557819892261,0.32707162590758715,0.2756746264348358
+0095,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.23445914247935182,0.21268981433942796,0.30049714337731126
+0095,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.25697267661022216,0.3492143986052072,0.2552777036818925
+0099,preop,3 months after surgery,preop -> 3 months after surgery,0.24106853316226629,0.4515671713609844,0.2295224749652228
+0099,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3828758976404154,0.3750652207823776,0.3149544833061644
+0099,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2691416352307219,0.2041853527855391,0.3990489591579188
+0100,preop,3 months after surgery,preop -> 3 months after surgery,0.17960057810532476,0.6231852484941582,0.16870832344280048
+0100,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.42510368317756275,0.3162238425413027,0.39758894893141666
+0100,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2606944255248642,0.49112941695832724,0.26701254371774014
+0100,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.394035273925744,0.3175533022093455,0.3166723469670342
+0103,preop,3 months after surgery,preop -> 3 months after surgery,0.3125792019110737,0.632256018474728,0.25112519552721957
+0103,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3394561947252328,0.5213476849800281,0.3283346508828602
+0103,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3660343098114914,0.2596666578699686,0.3213482473023758
+0106,preop,3 months after surgery,preop -> 3 months after surgery,0.35375672908401284,0.42533881583839717,0.29370387648294066
+0106,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3364149562860569,0.316483733317748,0.332936707156949
+0106,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.39327821105974065,0.35938719723405854,0.484757399578766
+0106,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.2501092131984004,0.2923947112892607,0.3688075899968273
+0112,preop,3 months after surgery,preop -> 3 months after surgery,0.3852893317883299,0.6603713387017639,0.29588882465946903
+0112,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2875724476256034,0.5767895324525281,0.21495704565054463
+0112,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.27377643485006264,0.3208313369145005,0.26846100445085436
+0112,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.2505625880773952,0.24795275916735063,0.24537160884125886
+0114,preop,3 months after surgery,preop -> 3 months after surgery,0.3825975518936801,0.38924911573663595,0.3354108234595545
+0114,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.24985128564641665,0.367220746593681,0.30500255730359105
+0114,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1713652022511293,0.2350644428781795,0.25555956086561726
+0116,preop,3 months after surgery,preop -> 3 months after surgery,0.18039972503473894,0.2514574558789252,0.16119018708707233
+0116,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.5327080494888131,0.464873525353541,0.4737113404014357
+0116,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.45216262978045424,0.2223277949856043,0.469083267992916
+0116,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3653855156492083,0.6238404545893356,0.30158026484519435
+0117,preop,3 months after surgery,preop -> 3 months after surgery,0.6026864395876722,0.9421720685231436,0.4914915256926581
+0117,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.28234036943690677,0.5972603032513574,0.2756311372103864
+0117,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2349838235137453,0.28568222632099183,0.23161816258623208
+0117,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3980970125345827,0.3036278924799791,0.33784778512046654
+0118,preop,3 months after surgery,preop -> 3 months after surgery,0.431544724779719,0.7000309580123504,0.3787206260037148
+0118,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.18817813113601456,0.48655245477082254,0.1543066351774696
+0118,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.21357766175613208,0.2587478365165346,0.20495211389998436
+0118,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.33905230963270894,0.3080821618376012,0.2845947239906916
+0134,preop,3 months after surgery,preop -> 3 months after surgery,0.3417591933709667,0.5400464529135696,0.22280464424315138
+0134,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.4013251019106464,0.5550982105337794,0.3912073056183812
+0134,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2462203731764676,0.23850142549971476,0.28354531258638904
+0135,preop,3 months after surgery,preop -> 3 months after surgery,0.4378274585780766,0.5203928415147455,0.4622392958946787
+0135,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2709309623097736,0.40287138285802615,0.21970349664751104
+0135,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3019928959164581,0.33361688064081213,0.28413041540969153
+0135,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.26921014802219656,0.3331290468122968,0.2962217496737034
+0139,preop,3 months after surgery,preop -> 3 months after surgery,0.36355965801598555,0.5481032828702679,0.29352874614010593
+0139,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.24706185009100576,0.29595128053449665,0.2908773222577583
+0139,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2730232115955244,0.4203228158876835,0.21170139284103476
+0139,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.28265491293521766,0.1584228199901412,0.28685749811873945
+0144,preop,3 months after surgery,preop -> 3 months after surgery,0.17558189214468342,0.5637238837056953,0.21942017177028825
+0144,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.21989932950121044,0.2153552065449425,0.20546127682488133
+0144,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.20398133739777854,0.20552741069781477,0.2327445908097978
+0144,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.14092898439565438,0.11942660289660292,0.1975013331841988
+0153,preop,3 months after surgery,preop -> 3 months after surgery,0.28717325358319834,0.3832533944720521,0.24926643204272528
+0153,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.4338503981911918,0.28547629155988496,0.4383356584191575
+0153,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.21660683235121375,0.3094653855312416,0.3454463177272032
+0153,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.34738920796132233,0.47061264577467654,0.2810054160879998
+0154,preop,3 months after surgery,preop -> 3 months after surgery,0.4330742848787535,0.6638495720159641,0.34488050457226466
+0154,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.1754015044871915,0.4077191637194431,0.1726834145218941
+0155,preop,3 months after surgery,preop -> 3 months after surgery,0.2519731233477718,0.6592046802510626,0.1486827884832291
+0155,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.45435918651035856,0.4968122984268044,0.4547894772129284
+0155,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.40606011400921527,0.2840299423845603,0.36856187721113004
+0161,preop,3 months after surgery,preop -> 3 months after surgery,0.30910021615474137,0.4577929479470263,0.27005148438417265
+0161,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3330924071002595,0.5408089624684155,0.26754302015097137
+0161,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.20679886065472888,0.36526627419140684,0.2314290366910076
+0161,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.29799302149450835,0.218835836885997,0.18678493791421472
+0163,preop,3 months after surgery,preop -> 3 months after surgery,0.20040752509634718,0.42697261760445215,0.2459847160503723
+0163,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2996495715341416,0.2846770439181286,0.3245209726232708
+0163,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2282621200373246,0.13680265255111676,0.22557576800420756
+0170,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.4125833696949972,0.22094437205042933,0.4220806939117867
+0170,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.20106538220108203,0.23751485210694273,0.2345495023883262
+0178,preop,3 months after surgery,preop -> 3 months after surgery,0.3981266986879439,0.35275118440842274,0.426353600818336
+0178,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.4707981024889223,0.5031049607791925,0.5210280412177385
+0178,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.30667706893067953,0.6457609427554422,0.3442388777601323
+0178,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.25721493394203876,0.46496295350104944,0.194739849215661
+0192,preop,3 months after surgery,preop -> 3 months after surgery,0.40703214266639215,0.43772996033976547,0.5095690621837198
+0192,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.35652821995407913,0.49211133617145386,0.2842406318223573
+0192,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2509890673579378,0.21672974519738705,0.3137131471295951
+0202,preop,3 months after surgery,preop -> 3 months after surgery,0.45579395647252396,0.7552183362828346,0.4378817966502322
+0202,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.46213664283910105,0.6402983290062669,0.40016073623346
+0211,preop,3 months after surgery,preop -> 3 months after surgery,0.41778548174806024,0.41839286173474877,0.36109923765456065
+0211,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.25323560353093166,0.5326213067599291,0.24326884976289292
+0211,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3109097430750573,0.40905830492700784,0.2844760656663754
+0212,preop,3 months after surgery,preop -> 3 months after surgery,0.34934054955562666,0.5748627802483282,0.3412922677739189
+0212,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2469358276161804,0.2720089549541202,0.18110933500134274
+0216,preop,3 months after surgery,preop -> 3 months after surgery,0.34871073595504315,0.4319279586575098,0.1426730950407168
+0216,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.24590290217927555,0.4068770586769795,0.23491468530353515
+0216,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.49395478052554825,0.6235374847683425,0.5659033160404674
+0217,preop,3 months after surgery,preop -> 3 months after surgery,0.25495722456864534,0.8489331571509907,0.2834697375694128
+0217,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.23151276256779438,0.37791429533088655,0.26905164146480165
+0217,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.5347691984936083,0.38440558851707496,0.47058948178505045
+0227,preop,3 months after surgery,preop -> 3 months after surgery,0.30708609164319234,0.48615097914144617,0.4695161386570411
+0227,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.5692405153149421,0.8169069842985416,0.5256118209228244
+0227,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2767094272965512,0.5681323646409826,0.3292828477516683
+0227,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.35524659355625166,0.2052530140979697,0.40924833848206865
+0237,preop,3 months after surgery,preop -> 3 months after surgery,0.6664238481992736,0.7960547162479814,0.589796066631091
+0237,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.4470866514698096,0.5949028982702044,0.4181381573513506
+0237,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.24306495018059115,0.1801467167686147,0.3732498555444119
+0242,preop,3 months after surgery,preop -> 3 months after surgery,0.7627935895249901,1.0676101682840606,0.5879050795607008
+0242,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.235019151026066,0.6092625125540057,0.23780287178835324
+0242,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.41765288818907664,0.5987150192162767,0.3561735185798113
+0242,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.43349840945085816,0.34626762545325523,0.3761960374057012
+0246,preop,3 months after surgery,preop -> 3 months after surgery,0.5708271843880628,0.9580681051406965,0.4922082782469752
+0246,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2715278927586096,0.47963107721518916,0.25038306078845607
+0246,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2227538028471517,0.326906097944708,0.15638921914853027
+0246,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.27216656786495586,0.29419837049938424,0.32375908360812766
+0248,preop,3 months after surgery,preop -> 3 months after surgery,0.278067644068862,0.615425409558974,0.18339030817767188
+0248,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.38241634960793586,0.22796810494747158,0.3612071076538319
+0256,preop,3 months after surgery,preop -> 3 months after surgery,0.4471514191667715,0.7547923938194019,0.2983949424848469
+0256,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.23675062429501517,0.517101914345803,0.23137140994846878
+0256,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.25743762162275863,0.19005972806392368,0.2773426895484445
+0256,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3591647680420173,0.4090545761630481,0.3031891114457913
+0262,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3499144933328193,0.3896439152429629,0.26790671615105355
+0262,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.41097439411849357,0.3120574755770563,0.34706888806115793
+0268,preop,3 months after surgery,preop -> 3 months after surgery,0.508486823226202,0.6332800731585645,0.4968776905615296
+0268,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.6337181528177145,0.7388956223020193,0.7266826641347214
+0268,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.420969234431674,0.5345946486643087,0.41142855720888843
+0268,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.4539387136499112,0.35143027010548594,0.29862623817605755
+0273,preop,3 months after surgery,preop -> 3 months after surgery,0.17471791951058335,0.28957321294270605,0.2910525374871495
+0273,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.27356965036589326,0.2136063919117516,0.35645330895473193
+0273,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1967212962307169,0.11434257835668528,0.25315349465802
+0273,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.24905468336555728,0.39064480821432546,0.20566433069453105
+0281,preop,3 months after surgery,preop -> 3 months after surgery,0.29301264611395733,0.6210409446316485,0.23967745579927996
+0281,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3008161115913755,0.4357111694530381,0.3116561395402877
+0281,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.18416898153786543,0.2923146956276862,0.2523855729001339
+0281,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.340923783300437,0.2726268799915192,0.27544478715396825
+0283,preop,3 months after surgery,preop -> 3 months after surgery,0.6735049678462255,1.1076773918388183,0.5006909349896791
+0283,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.18528053629028796,0.12841618751374873,0.3044673225804976
+0283,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.30099597177360926,0.4030417964307717,0.3277953319088858
+0283,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.43077849029047405,0.4658660339271001,0.35895053201133126
+0287,preop,3 months after surgery,preop -> 3 months after surgery,0.25247609236183804,0.22533850349663684,0.35254208506794915
+0287,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.37447715932441383,0.4755298469323788,0.2818655656256761
+0289,preop,3 months after surgery,preop -> 3 months after surgery,0.3020772469571151,0.56396776236664,0.22976478087592675
+0289,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3572580634170088,0.4020906944228774,0.3648908532628319
+0289,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.46908983121513553,0.2757874712176365,0.43243307782498835
+0289,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3625339445817206,0.3186336906825414,0.3228284598379641
+0290,preop,3 months after surgery,preop -> 3 months after surgery,0.2597202363532356,0.3943553212372273,0.35771206497956387
+0296,preop,3 months after surgery,preop -> 3 months after surgery,0.6044033290665395,0.7473079938808126,0.5070840541524689
+0296,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.1996642420542631,0.3344773184450116,0.3228931985598959
+0296,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.36022965562337467,0.34476789507290284,0.3798650189382728
+0296,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.28430939945690303,0.5362768438394974,0.275120741949429
+0304,preop,3 months after surgery,preop -> 3 months after surgery,0.20613821407635327,0.31921507722770454,0.11663107545210567
+0304,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.20142451299476205,0.1833866884062674,0.2031387169648292
+0304,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1786158812830757,0.2552316453069827,0.23761520330081978
+0304,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.357701621981997,0.41540974689788956,0.3053572547198889
+0306,preop,3 months after surgery,preop -> 3 months after surgery,0.23731329397449188,0.6509423646436459,0.23044588175237773
+0306,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.1325697344184364,0.11005622461242658,0.17074664958662036
+0306,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.22599588118231687,0.20327363473082496,0.2686844248418155
+0306,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.1919721826482832,0.308229606580051,0.21750785497144376
+0309,preop,3 months after surgery,preop -> 3 months after surgery,0.3186146752497068,0.46459353906408185,0.3965495077182374
+0309,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.47799261334920495,0.367425153018782,0.33976424565707497
+0309,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3285491095722238,0.487351198957758,0.3315630952153898
+0309,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.23846289070821866,0.22970941681584822,0.2428995121445324
+0311,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2057051171302399,0.11368628238438877,0.2716948428604835
+0311,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.45101965250168496,0.30178323638365456,0.451483782947427
+0322,preop,3 months after surgery,preop -> 3 months after surgery,0.3851108347542859,0.5335814870300992,0.29324501633248706
+0322,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3869425114189939,0.6120234507153014,0.38197404580586874
+0322,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2964587713521494,0.24450333732176022,0.23584863420700072
+0322,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.33255650974636863,0.4007716692862568,0.3137336618393422
+0323,preop,3 months after surgery,preop -> 3 months after surgery,0.20849481319066163,0.34603886404539125,0.20141741410056793
+0323,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.28758046737000964,0.18233029209289742,0.33186827966048527
+0323,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1707649180037077,0.2440154563021198,0.2543488285149955
+0323,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.23030123326199053,0.18057135999011723,0.3647635312159747
+0330,preop,3 months after surgery,preop -> 3 months after surgery,0.307679419663842,0.40975892930167473,0.40334012312224554
+0330,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.18683442514614373,0.3636406447998974,0.2769042576230704
+0330,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.18445316718943072,0.1664161749683293,0.19446735676963905
+0330,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.23762798719818357,0.24246376868648867,0.2742124916740964
+0346,preop,3 months after surgery,preop -> 3 months after surgery,0.30692033477567154,0.5674776315961151,0.20878437824044896
+0346,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.15992339945241785,0.2934064041822684,0.17758499400790312
+0347,preop,3 months after surgery,preop -> 3 months after surgery,0.5573034815292937,0.7299636509383594,0.47365151713052356
+0347,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3288869548317511,0.4410948078046034,0.3204191124171659
+0347,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1926514106336256,0.2673009039895906,0.2152812427106543
+0347,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.32973979679840476,0.3510365173443013,0.29972799835695785
+0356,preop,3 months after surgery,preop -> 3 months after surgery,0.23971732375973623,0.5837616485299147,0.24919575458944332
+0356,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.17959599190097045,0.2598603412233186,0.23473924455872902
+0369,preop,3 months after surgery,preop -> 3 months after surgery,0.22631218331983327,0.46479800321626197,0.2636420947272746
+0369,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.35149797147626594,0.40429718560390215,0.3520401112911736
+0369,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.43784534396856045,0.26661246526114246,0.3980583494777331
+0369,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.2753148932697769,0.25268626971879365,0.2286647147070004
+0370,preop,3 months after surgery,preop -> 3 months after surgery,0.36788964602778385,0.6434401483867366,0.23524007563725455
+0370,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.6353395548495766,0.38768626184419785,0.6557396171443641
+0370,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.24303636669799586,0.5269908955846841,0.37012812614501805
+0370,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.6951196590341627,0.5575004523647225,0.790764937577438
+0376,preop,3 months after surgery,preop -> 3 months after surgery,0.22512228794456865,0.2500482085400073,0.24858467686760338
+0376,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.32207948656755614,0.23919102228319916,0.3033245254237493
+0376,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.40281617013621646,0.4537376142446578,0.4026101725963003
+0376,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.3472270124260831,0.35447665715653465,0.37341404332796424
+0379,preop,3 months after surgery,preop -> 3 months after surgery,0.5389289087828725,0.7005002058207936,0.47938460575403163
+0379,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.1883777108387716,0.5015460710983314,0.22822817216572133
+0379,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.1834943394224984,0.2098158725922388,0.21159668536743167
+0379,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.24001230210747762,0.23832005101024561,0.31079260314564894
+0384,preop,3 months after surgery,preop -> 3 months after surgery,0.3250531870291485,0.47306669777953153,0.34817012352399823
+0384,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3884255118040059,0.4845139919756563,0.3969892497535187
+0384,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.4074791971445645,0.3834726625390015,0.4629904356228127
+0384,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.20247174934356657,0.341860675861082,0.34336356837652804
+0397,preop,3 months after surgery,preop -> 3 months after surgery,0.591866385015043,0.46363294441088126,0.6264400108248095
+0397,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.7374198798135851,0.43175776175392006,0.6855590289216362
+0399,preop,3 months after surgery,preop -> 3 months after surgery,0.37046938585717476,0.6079705260838097,0.22977880930151473
+0399,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3656699073976959,0.48361558412638256,0.34366689285779345
+0399,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.47224239419885294,0.24032590637893966,0.4801448739028984
+0399,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.371492187219892,0.2449779708305283,0.3173177687828378
+0406,preop,3 months after surgery,preop -> 3 months after surgery,0.18330650797164913,0.2793005860241863,0.21450689016385519
+0406,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.14647456056889446,0.11873508976631461,0.17085126804295345
+0406,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.20012903025034282,0.14442242974536507,0.2319858455723534
+0406,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.45102566108483244,0.44467703835646233,0.36562902197312885
+0409,preop,3 months after surgery,preop -> 3 months after surgery,0.2902230873010827,0.5952330714772092,0.24007392341425682
+0409,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2596660174563563,0.4355077318348699,0.31110111672161
+0409,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2485036131389203,0.16994811591767492,0.23906189383802895
+0409,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.16067629154803595,0.21618731191653717,0.21198719892179976
+0412,preop,3 months after surgery,preop -> 3 months after surgery,0.2656767416526207,0.4545708722709498,0.27162840921176834
+0412,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.2660737707758375,0.33182531801809334,0.24150928991694626
+0412,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3185168087007277,0.4317484714217433,0.2403460491169399
+0412,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.4347316993878602,0.23779885497294798,0.42200396753363534
+0427,preop,3 months after surgery,preop -> 3 months after surgery,0.302336198990491,0.5576259077531781,0.2646690637846055
+0427,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.13280164689100638,0.3119693155081406,0.1654782474056607
+0427,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.39457589122472914,0.419759948122303,0.3421264399391337
+0427,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.19923192760222216,0.22856697854291774,0.23732998317026588
+0432,preop,3 months after surgery,preop -> 3 months after surgery,0.2736945824980323,0.5554748720552722,0.1718906081268347
+0432,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.5302564487209749,0.4375129384282721,0.5009660884509776
+0432,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.31092366752336165,0.5272750838582021,0.3248161335465688
+0432,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.5282861733289692,0.48830526234764016,0.45489787672572796
+0447,preop,3 months after surgery,preop -> 3 months after surgery,0.3005768091833854,0.38842520833030914,0.3616431345317675
+0447,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.40625354291713434,0.48333539260748853,0.4545538614858759
+0447,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.47098128166642844,0.25392812608327,0.4383525987211126
+0459,preop,3 months after surgery,preop -> 3 months after surgery,0.12710792200301851,0.20594639433522474,0.23612168264495267
+0459,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.27103824740922533,0.33615904373861816,0.3224705060212693
+0459,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.2689403655587999,0.15337261437787802,0.2640054621398543
+0459,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.19537957158316044,0.30837869807025003,0.2161577578313057
+0468,preop,3 months after surgery,preop -> 3 months after surgery,0.39835691382316074,0.6820499818155139,0.38687389507262837
+0468,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.43825207688270323,0.5539916998399304,0.38943339878414485
+0468,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.3588971104106167,0.4739799852887167,0.2631656207801647
+0468,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.28895794732710134,0.21041345986009682,0.41106215427641585
+0471,preop,3 months after surgery,preop -> 3 months after surgery,0.17179999649586095,0.5416942957132701,0.2647846543243513
+0498,preop,3 months after surgery,preop -> 3 months after surgery,0.47279257858142465,0.363640436511186,0.38650898150780033
+0498,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3658330396210138,0.15472645265582605,0.4898428242190865
+0498,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.32558041543367167,0.321343040317793,0.44080839213782075
+0498,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.24033560154263542,0.15205374654370232,0.43082038680428536
+0546,preop,3 months after surgery,preop -> 3 months after surgery,0.3119936619373611,0.19011159083837048,0.2305672781791102
+0546,3 months after surgery,6 months after surgery,3 months after surgery -> 6 months after surgery,0.3087680102680447,0.25643634974424706,0.3514708315350487
+0546,6 months after surgery,9 months after surgery,6 months after surgery -> 9 months after surgery,0.34841423324658977,0.36972234732823256,0.3887967884848285
+0546,9 months after surgery,12 months after surgery,9 months after surgery -> 12 months after surgery,0.25815729808919147,0.3550478675129957,0.3525390780515505
+0671,preop,3 months after surgery,preop -> 3 months after surgery,0.3026345592424467,0.27438784826031637,0.36525349840062077
+0693,preop,3 months after surgery,preop -> 3 months after surgery,0.21394535292140218,0.4232863904557326,0.19050350362962507
+0758,preop,3 months after surgery,preop -> 3 months after surgery,0.2516838119519409,0.39923576074360967,0.22525666382605813

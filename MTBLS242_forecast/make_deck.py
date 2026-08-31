@@ -139,7 +139,7 @@ def _table(slide, left, top, width, rows, col_widths, *, font, header=True, size
     return table
 
 
-def build(pr, cont, graph: Path, out: Path, c: dict, font: str) -> Path:
+def build(pr, cont, ar, graph: Path, out: Path, c: dict, font: str) -> Path:
     prs = Presentation()
     prs.slide_width, prs.slide_height = W, H
     text = _binder(font)
@@ -258,6 +258,44 @@ def build(pr, cont, graph: Path, out: Path, c: dict, font: str) -> Path:
              medr2=cont["median_metabolite_r2"]),
          12.5, spacing=1.3)
 
+    # ---------------------------------------------------------------- AR setup
+    s = _blank(prs)
+    _heading(s, c["ar_title"], c["kicker_ar"], font)
+    text(s, MARGIN, Inches(1.85), W - 2 * MARGIN, Inches(0.9), c["ar_lead"], 13.5,
+         spacing=1.3)
+    _metric_row(s, Inches(3.15), list(zip(
+        [str(ar["n_transitions"]), str(ar["n_samples_in_panel"]),
+         str(ar["iterated_vs_direct"]["n_subjects_complete"])],
+        c["ar_metrics"], [RED, INK, INK])), font)
+    text(s, MARGIN, Inches(5.3), W - 2 * MARGIN, Inches(1.3), c["ar_foot"], 12,
+         color=MUTED, spacing=1.3)
+
+    # ---------------------------------------------------------------- AR result
+    s = _blank(prs)
+    _heading(s, c["ar2_title"], c["kicker_ar"], font)
+    _fit_picture(s, graph / "autoregressive.png", Inches(1.85), Inches(3.15))
+    text(s, MARGIN, Inches(5.25), W - 2 * MARGIN, Inches(0.8), c["ar2_punch"], 16,
+         bold=True, color=RED, spacing=1.3)
+    top = Inches(6.15)
+    for headline, detail in c["ar2_rows"][:1]:
+        text(s, MARGIN, top, W - 2 * MARGIN, Inches(0.35), headline, 13, bold=True)
+        text(s, MARGIN, top + Inches(0.36), W - 2 * MARGIN, Inches(0.5), detail, 11.5,
+             color=MUTED, spacing=1.25)
+
+    # ---------------------------------------------------------------- AR nuance
+    s = _blank(prs)
+    _heading(s, c["ar3_title"], c["kicker_ar"], font)
+    text(s, MARGIN, Inches(1.9), W - 2 * MARGIN, Inches(0.8), c["ar3_body"], 13.5,
+         spacing=1.3)
+    _metric_row(s, Inches(3.0), list(zip(
+        [f"{ar['iterated_vs_direct']['persistence_mae']:.3f}",
+         f"{ar['iterated_vs_direct']['iterated_mae']:.3f}",
+         f"{ar['iterated_vs_direct']['direct_mae']:.3f}"],
+        ["persistence", "iterated\npreop→3→6→9→12", "direct\npreop→12mo"],
+        [MUTED, RED, BLUE])), font)
+    text(s, MARGIN, Inches(4.9), W - 2 * MARGIN, Inches(1.8), c["ar3_punch"], 14,
+         spacing=1.35)
+
     # ---------------------------------------------------------------- reusable
     s = _blank(prs)
     _heading(s, c["reuse_title"], c["kicker_takeaway"], font)
@@ -294,6 +332,7 @@ def main() -> None:
                              "Tahoma for a face present on both macOS and Windows.")
     parser.add_argument("--pr-dir", type=Path, default=ROOT / "outputs_pr_auc")
     parser.add_argument("--continuous-dir", type=Path, default=ROOT / "outputs")
+    parser.add_argument("--ar-dir", type=Path, default=ROOT / "outputs_ar")
     parser.add_argument("--graph-dir", type=Path, default=ROOT / "Graph")
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
@@ -304,7 +343,8 @@ def main() -> None:
 
     pr = json.loads((args.pr_dir / "summary_pr_auc.json").read_text())
     cont = json.loads((args.continuous_dir / "summary.json").read_text())
-    build(pr, cont, args.graph_dir, out, content, font)
+    ar = json.loads((args.ar_dir / "summary_ar.json").read_text())
+    build(pr, cont, ar, args.graph_dir, out, content, font)
     print(f"wrote {out}  (lang={args.lang}, font={font})")
 
 

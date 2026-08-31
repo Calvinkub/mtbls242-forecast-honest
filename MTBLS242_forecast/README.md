@@ -14,7 +14,7 @@ MTBLS242 does not provide a future disease-incidence outcome or BMI/weight-loss 
 the supplied metadata. A clinical risk forecast requires those future outcomes to be
 linked at subject level.
 
-## Two experiments
+## Three experiments
 
 **1. `forecast_mtbls242.py`** — continuous forecast of the 12-month NMR profile.
 Multi-output ridge regression, penalty selected inside each training fold, nested 5-fold
@@ -30,6 +30,14 @@ under box constraints, 20 repeats × 5-fold stratified CV.
 
 → No evidence of skill beyond regression to the mean.
 [`RESULTS_PR_AUC.md`](RESULTS_PR_AUC.md)
+
+**3. `forecast_autoregressive.py`** — one-step forecast across the full follow-up
+schedule, using all 465 samples rather than the 142 the pairwise experiments use.
+346 consecutive transitions from 107 subjects, subject-grouped 5-fold CV.
+
+→ Beats persistence, does not beat the per-timepoint mean. The only window where a
+subject's own profile carries information is **6→9 months**.
+[`RESULTS_AR.md`](RESULTS_AR.md)
 
 ## The outcome, and why it is residualized
 
@@ -89,6 +97,7 @@ python -m pip install -r requirements.txt
 
 python forecast_mtbls242.py
 python forecast_responder_pr_auc.py
+python forecast_autoregressive.py
 python figures.py
 python make_deck.py --lang en        # English deck
 python make_deck.py --lang th        # Thai deck
@@ -123,12 +132,14 @@ scientific gain.
 | [`monotone_logistic.py`](monotone_logistic.py) | Sign-constrained logistic regression (L-BFGS-B) |
 | [`forecast_mtbls242.py`](forecast_mtbls242.py) | Continuous profile forecast |
 | [`forecast_responder_pr_auc.py`](forecast_responder_pr_auc.py) | Responder forecast |
+| [`forecast_autoregressive.py`](forecast_autoregressive.py) | Autoregressive forecast across all follow-ups |
 | [`figures.py`](figures.py) | Regenerates `Graph/` at 300 DPI |
 | [`make_deck.py`](make_deck.py) | Builds the presentation decks from the summary JSONs |
 | [`deck_content.py`](deck_content.py) | Slide copy, English + Thai (layout stays shared) |
 | [`METHODS.md`](METHODS.md) | Why each control exists |
 | [`CORRECTION.md`](CORRECTION.md) | The retired PR-AUC 0.671 claim |
-| `tests/` | 42 tests, each against a case with a known answer |
+| [`RESULTS_AR.md`](RESULTS_AR.md) | Autoregressive results, per transition |
+| `tests/` | 56 tests, each against a case with a known answer |
 
 ## Outputs
 
@@ -136,6 +147,10 @@ scientific gain.
 `summary.json`, `fold_metrics.csv`, `metabolite_metrics.csv`, `heldout_predictions.csv`,
 `paired_longitudinal_dataset.csv`, `subject_errors.npz`, `forecast_model.npz`,
 `forecast_observed_vs_predicted.png`.
+
+`outputs_ar/` (autoregressive):
+`summary_ar.json`, `per_transition_metrics.csv`, `transition_predictions.csv`,
+`ar_errors.npz`.
 
 `outputs_pr_auc/` (responder):
 `summary_pr_auc.json`, `fold_pr_auc.csv`, `heldout_responder_predictions.csv`,

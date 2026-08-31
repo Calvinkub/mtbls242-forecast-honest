@@ -16,6 +16,7 @@ analysis reported a result that its own controls do not support.
 |---|---|---|
 | [Continuous](MTBLS242_forecast/RESULTS.md) — forecast the 12-month profile | MAE 0.326 vs 0.334 mean baseline, gap 95% CI **[−0.0158, +0.0001]** | Not distinguishable from predicting the mean. Does beat persistence. |
 | [Responder](MTBLS242_forecast/RESULTS_PR_AUC.md) — forecast strong metabolic response | PR-AUC **0.483 ± 0.027** vs 0.437 prevalence; no-learning scorer **0.522** | **No evidence of skill beyond regression to the mean.** |
+| [Autoregressive](MTBLS242_forecast/RESULTS_AR.md) — one step ahead across 3/6/9/12 months | MAE **0.322** vs persistence 0.405, per-timepoint mean 0.318 | Beats persistence, not the mean. Only **6→9mo** beats both. |
 
 ![PR curve and no-signal null](MTBLS242_forecast/Graph/pr_auc_curve.png)
 
@@ -64,10 +65,11 @@ cd MTBLS242_forecast
 
 python forecast_mtbls242.py          # continuous 12-month profile forecast
 python forecast_responder_pr_auc.py  # responder forecast + controls
+python forecast_autoregressive.py    # AR across all follow-ups
 python figures.py                    # regenerate Graph/ at 300 DPI
 python make_deck.py --lang en        # English deck
 python make_deck.py --lang th        # Thai deck
-python -m pytest tests/ -q           # 42 tests
+python -m pytest tests/ -q           # 56 tests
 ```
 
 Reproduce the retired claim together with the controls that retired it:
@@ -80,7 +82,7 @@ python forecast_responder_pr_auc.py --legacy-outcome --include-artifacts \
 The analysis scripts need only NumPy, pandas, and SciPy. matplotlib is needed for
 `figures.py`, and python-pptx for `make_deck.py`.
 
-A 13-slide walkthrough of the correction is available in
+A 16-slide walkthrough of the correction is available in
 [English](MTBLS242_forecast/mtbls242_forecast_correction.pptx) and
 [Thai](MTBLS242_forecast/mtbls242_forecast_correction_th.pptx). Both are built from the
 same layout and the same summary JSONs, so neither can drift from the results or from

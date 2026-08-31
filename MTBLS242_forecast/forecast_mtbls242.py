@@ -36,6 +36,75 @@ def subject_id(sample_name: str) -> str:
     return match.group(1)
 
 
+TIME_ORDER = (
+    "preop",
+    "3 months after surgery",
+    "6 months after surgery",
+    "9 months after surgery",
+    "12 months after surgery",
+)
+
+
+def _read_panel() -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
+    """Shared parsing: sample sheet joined to the metabolite abundance table."""
+    samples = pd.read_csv(SAMPLE_FILE, sep="\t", dtype=str)
+    required = {"Sample Name", "Factor Value[time point]"}
+    missing = required.difference(samples.columns)
+    if missing:
+        raise ValueError(f"Sample sheet is missing columns: {sorted(missing)}")
+
+    samples = samples[["Sample Name", "Factor Value[time point]"]].copy()
+    samples["subject_id"] = samples["Sample Name"].map(subject_id)
+
+    maf = pd.read_csv(MAF_FILE, sep="\t", low_memory=False)
+    if "metabolite_identification" not in maf.columns:
+        raise ValueError("MAF is missing metabolite_identification")
+
+    sample_columns = [c for c in maf.columns if c in set(samples["Sample Name"])]
+    if not sample_columns:
+        raise ValueError("No sample IDs overlap between the sample sheet and MAF")
+
+    metabolites = maf["metabolite_identification"].astype(str).tolist()
+    abundance = maf.set_index("metabolite_identification")[sample_columns].T
+    abundance = abundance.apply(pd.to_numeric, errors="coerce")
+    abundance.index.name = "Sample Name"
+    return samples, abundance, metabolites
+
+
+def load_timepoint_panel() -> tuple[pd.DataFrame, np.ndarray, list[str]]:
+    """Every sample at every time point, not just the preop/12-month pair.
+
+    Returns `(index, values, metabolites)` where `index` has one row per sample with
+    `subject_id`, `timepoint`, and `time_order`, aligned row-for-row with `values`
+    (log1p abundances). This is what the autoregressive model uses: the pairwise loader
+    discards 3/6/9 months entirely, which is 323 of the 465 samples.
+    """
+    samples, abundance, metabolites = _read_panel()
+
+    panel = samples.loc[
+        samples["Sample Name"].isin(abundance.index)
+        & samples["subject_id"].notna()
+        & samples["Factor Value[time point]"].isin(TIME_ORDER)
+    ].copy()
+    panel = panel.rename(columns={"Factor Value[time point]": "timepoint"})
+    panel["time_order"] = panel["timepoint"].map({t: i for i, t in enumerate(TIME_ORDER)})
+    panel = panel.sort_values(["subject_id", "time_order"]).reset_index(drop=True)
+
+    if panel.duplicated(["subject_id", "timepoint"]).any():
+        raise ValueError("A subject has more than one sample at the same time point")
+
+    values = abundance.loc[panel["Sample Name"]].to_numpy(dtype=float)
+    values = np.log1p(np.clip(values, 0, None))
+
+    valid = np.isfinite(values).all(axis=0)
+    values = values[:, valid]
+    metabolites = [m for m, keep in zip(metabolites, valid) if keep]
+    if not metabolites:
+        raise ValueError("No complete metabolite features remain after numeric validation")
+
+    return panel[["subject_id", "Sample Name", "timepoint", "time_order"]], values, metabolites
+
+
 def load_longitudinal_pairs() -> tuple[pd.DataFrame, np.ndarray, np.ndarray, list[str]]:
     samples = pd.read_csv(SAMPLE_FILE, sep="\t", dtype=str)
     required = {"Sample Name", "Factor Value[time point]"}
