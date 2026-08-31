@@ -189,7 +189,8 @@ Each control gets a test against a case with a known answer:
 
 ## Delivery
 
-The repo belongs to another GitHub account, so `origin` is likely not pushable from
-here. Work lands on the local `honest-evaluation` branch at `/Users/admin/Project/Forecast`.
-How it reaches upstream - pull request, patch file, or copy into your own repo - is your
-call once the work is reviewed.
+The upstream repo `Chaiporn2005/Forecast` belongs to another account. Work is developed
+on the local `honest-evaluation` branch at `/Users/admin/Project/Forecast` and delivered
+by **copying into the user's own GitHub account (`Calvinkub`)** as a separate repository,
+with `Chaiporn2005/Forecast` retained in the git history and credited in the README as
+the origin of the pipeline. Nothing is pushed to the upstream repo.

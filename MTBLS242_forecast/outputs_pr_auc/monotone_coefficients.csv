@@ -1,22 +1,19 @@
-metabolite,constraint,standardized_coefficient
-L-valine,1,0.01782583664421037
-L-allo-Isoleucine,1,0.017336667015757392
-L-tyrosine,1,0.013993916949765837
-D-phenylalanine,1,0.013784492310325741
-L-leucine,1,0.013391712396176998
-Pyruvic acid,0,0.012261000080305144
-L-Lactic acid,1,0.01222676620605247
-L-alanine,1,0.008306597996109109
-isopropanol,0,0.005622126202448133
-creatinine,0,0.0037021465526511925
-methanol,0,0.0017600314702285707
-lipoproteins,1,0.0
-histidine,-1,0.0
-glycine,-1,-0.0028522149445633894
-hypoxanthine,0,-0.002964529046214338
-acetoacetate,0,-0.004141846446670653
-Dimethyl sulfone,0,-0.004314088141070335
-(R)-3-Hydroxybutyric acid,0,-0.006254739958699155
-acetate,0,-0.0063948243637516194
-L-glutamine,-1,-0.00639813318257273
-citrate,0,-0.007580294352635577
+metabolite,constraint,standardized_coefficient,constraint_is_binding
+L-tyrosine,1,0.2829247719950035,False
+L-Lactic acid,1,0.21674386435159776,False
+acetoacetate,0,0.13636442463098755,False
+acetate,0,0.08486340088090301,False
+(R)-3-Hydroxybutyric acid,0,0.06799578260149049,False
+hypoxanthine,0,0.05788091982753838,False
+L-glutamine,-1,0.0,True
+L-valine,1,0.0,True
+histidine,-1,0.0,True
+L-allo-Isoleucine,1,0.0,True
+L-alanine,1,0.0,True
+L-leucine,1,0.0,True
+lipoproteins,1,0.0,True
+D-phenylalanine,1,0.0,True
+creatinine,0,-0.015688555572832257,False
+glycine,-1,-0.02250566340754287,False
+citrate,0,-0.0748227798871905,False
+Pyruvic acid,0,-0.291104349931127,False

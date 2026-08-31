@@ -8,5 +8,18 @@
   "r2_overall": 0.9305886679665748,
   "median_metabolite_r2": -0.013162575730274462,
   "mean_baseline_mae_log1p": 0.33440644401732333,
-  "persistence_mae_log1p": 0.5118714676234863
+  "persistence_mae_log1p": 0.5118714676234863,
+  "CONTROL_mae_gap_vs_mean_baseline": -0.007765606373567102,
+  "CONTROL_mae_gap_vs_mean_baseline_ci95": [
+    -0.015840774443827036,
+    6.723203492689733e-05
+  ],
+  "CONTROL_beats_mean_baseline": false,
+  "CONTROL_mae_gap_vs_persistence": -0.18468647868576588,
+  "CONTROL_mae_gap_vs_persistence_ci95": [
+    -0.21858871196930313,
+    -0.15185937591010423
+  ],
+  "CONTROL_beats_persistence": true,
+  "VERDICT": "Forecast is not distinguishable from predicting the training-fold mean."
 }

@@ -1,16 +1,46 @@
 {
-  "task": "forecast strong 12-month metabolic response from preop NMR",
-  "outcome_definition": "at least 9 of 11 literature-directed markers improve",
+  "task": "forecast residualized 12-month metabolic response from preop NMR",
+  "outcome_definition": ">=6/11 markers improve MORE than their own baseline predicts (change residualized on baseline, fitted in-fold)",
   "n_subjects": 71,
   "n_responders": 31,
   "prevalence_baseline": 0.43661971830985913,
-  "metric": "PR-AUC calculated as average precision",
-  "evaluation": "nested stratified 5-fold cross-validation; held-out subjects only",
-  "oof_pr_auc": 0.6708356866186068,
-  "mean_fold_pr_auc": 0.6532479425336568,
-  "std_fold_pr_auc": 0.1844015537548853,
+  "features_used": 18,
+  "artifact_features_dropped": [
+    "isopropanol",
+    "methanol",
+    "Dimethyl sulfone"
+  ],
+  "artifact_drop_reason": "exogenous compounds; isopropanol is a surgical skin-prep contaminant (Bridge_ai_summit_nmr_2026, Experiment A caveats)",
+  "metric": "PR-AUC (average precision)",
+  "evaluation": "20 repeats x 5-fold stratified CV, held-out only",
+  "model_pr_auc_mean": 0.48305644051715485,
+  "model_pr_auc_std_across_repeats": 0.02668262493669048,
+  "observed_lift_over_prevalence": 1.106355073442516,
+  "CONTROL_trivial_scorer_pr_auc": 0.5223536600524695,
+  "CONTROL_model_minus_trivial": -0.039297219535314676,
+  "CONTROL_model_minus_trivial_ci95": [
+    -0.05750739298812957,
+    -0.022892751751940714
+  ],
+  "CONTROL_model_beats_trivial": false,
+  "CONTROL_pairing_destroyed_null_lift_median": 1.0393930950556896,
+  "CONTROL_pairing_destroyed_null_lift_p95": 1.2262403193564138,
+  "CONTROL_observed_lift_clears_null": false,
+  "CONTROL_permutation_p_value": 0.8935532233883059,
+  "solver_convergence_rate": 1.0,
   "monotone_positive": 8,
   "monotone_negative": 3,
-  "unconstrained": 10,
-  "monotonicity_violations": 0
+  "unconstrained": 7,
+  "binding_constraints": [
+    "L-alanine",
+    "L-valine",
+    "L-glutamine",
+    "histidine",
+    "L-allo-Isoleucine",
+    "L-leucine",
+    "lipoproteins",
+    "D-phenylalanine"
+  ],
+  "max_abs_standardized_coefficient": 0.291104349931127,
+  "VERDICT": "No evidence of forecasting skill beyond regression to the mean."
 }

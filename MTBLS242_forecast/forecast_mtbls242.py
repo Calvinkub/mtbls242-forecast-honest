@@ -16,6 +16,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from controls import bootstrap_delta_ci
+
 
 ROOT = Path(__file__).resolve().parent
 SAMPLE_FILE = ROOT / "s_MTBLS242.txt"
@@ -135,9 +137,19 @@ def r2_score(y: np.ndarray, pred: np.ndarray, axis=None) -> np.ndarray:
     return 1.0 - np.divide(ss_res, ss_tot, out=np.full_like(ss_res, np.nan), where=ss_tot > 0)
 
 
-def cross_validate(x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, pd.DataFrame]:
+def cross_validate(
+    x: np.ndarray, y: np.ndarray
+) -> tuple[np.ndarray, np.ndarray, pd.DataFrame]:
+    """Return held-out ridge predictions, held-out mean-baseline predictions, and folds.
+
+    The mean baseline is returned per subject, not just as a fold average, so the gap
+    between the two can be given a paired bootstrap interval. A 2.4% MAE improvement on
+    71 subjects is well inside the range that noise produces, and reporting it without
+    an interval invites it to be read as a result.
+    """
     outer_folds = folds(len(x), N_SPLITS, SEED)
     oof = np.full_like(y, np.nan)
+    oof_mean = np.full_like(y, np.nan)
     rows = []
     all_idx = np.arange(len(x))
 
@@ -149,6 +161,7 @@ def cross_validate(x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, pd.DataFra
         oof[test_idx] = pred
 
         mean_pred = np.repeat(y[train_idx].mean(axis=0, keepdims=True), len(test_idx), axis=0)
+        oof_mean[test_idx] = mean_pred
         rows.append(
             {
                 "fold": fold_no,
@@ -162,7 +175,7 @@ def cross_validate(x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, pd.DataFra
             }
         )
 
-    return oof, pd.DataFrame(rows)
+    return oof, oof_mean, pd.DataFrame(rows)
 
 
 def save_plot(y: np.ndarray, pred: np.ndarray, path: Path) -> Path:
@@ -223,7 +236,15 @@ def main() -> None:
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     paired, x, y, metabolites = load_longitudinal_pairs()
-    oof, fold_metrics = cross_validate(x, y)
+    oof, oof_mean, fold_metrics = cross_validate(x, y)
+
+    # Per-subject error, so the comparison against the mean baseline can be given an
+    # interval that accounts for both being measured on the same 71 people.
+    subject_mae = np.mean(np.abs(y - oof), axis=1)
+    subject_mae_mean_baseline = np.mean(np.abs(y - oof_mean), axis=1)
+    subject_mae_persistence = np.mean(np.abs(y - x), axis=1)
+    gap_vs_mean = bootstrap_delta_ci(subject_mae, subject_mae_mean_baseline, 5000, SEED)
+    gap_vs_persistence = bootstrap_delta_ci(subject_mae, subject_mae_persistence, 5000, SEED)
 
     per_metabolite = pd.DataFrame(
         {
@@ -245,6 +266,20 @@ def main() -> None:
         "median_metabolite_r2": float(np.nanmedian(per_metabolite["r2"])),
         "mean_baseline_mae_log1p": float(fold_metrics["mean_baseline_mae_log1p"].mean()),
         "persistence_mae_log1p": float(fold_metrics["persistence_mae_log1p"].mean()),
+        "CONTROL_mae_gap_vs_mean_baseline": gap_vs_mean.point,
+        "CONTROL_mae_gap_vs_mean_baseline_ci95": [gap_vs_mean.low, gap_vs_mean.high],
+        "CONTROL_beats_mean_baseline": bool(gap_vs_mean.high < 0.0),
+        "CONTROL_mae_gap_vs_persistence": gap_vs_persistence.point,
+        "CONTROL_mae_gap_vs_persistence_ci95": [
+            gap_vs_persistence.low,
+            gap_vs_persistence.high,
+        ],
+        "CONTROL_beats_persistence": bool(gap_vs_persistence.high < 0.0),
+        "VERDICT": (
+            "Forecast beats predicting the training-fold mean."
+            if gap_vs_mean.high < 0.0
+            else "Forecast is not distinguishable from predicting the training-fold mean."
+        ),
     }
 
     prediction_rows = paired[["subject_id", "Sample Name_preop", "Sample Name_12mo"]].copy()
@@ -268,6 +303,14 @@ def main() -> None:
         metabolites=np.array(metabolites, dtype=object),
     )
 
+    np.savez_compressed(
+        args.output_dir / "subject_errors.npz",
+        model=subject_mae,
+        mean_baseline=subject_mae_mean_baseline,
+        persistence=subject_mae_persistence,
+        observed=y,
+        predicted=oof,
+    )
     paired_export.to_csv(args.output_dir / "paired_longitudinal_dataset.csv", index=False)
     prediction_rows.to_csv(args.output_dir / "heldout_predictions.csv", index=False)
     fold_metrics.to_csv(args.output_dir / "fold_metrics.csv", index=False)

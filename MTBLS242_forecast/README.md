@@ -2,99 +2,149 @@
 
 ## Forecast question
 
-Use the **pre-operative serum ¹H-NMR profile** to forecast the **same subject's
-serum NMR profile at 12 months after bariatric surgery**.
+Use the **pre-operative serum ¹H-NMR profile** to forecast the **same subject's serum
+NMR profile at 12 months after bariatric surgery**.
 
-This is a genuine longitudinal forecast because sample IDs encode a stable
-four-digit subject identifier. The public metadata contains 106 pre-operative
-samples and 71 twelve-month samples; **71 subjects have both time points**.
+This is a genuine longitudinal forecast because sample IDs encode a stable four-digit
+subject identifier. The public metadata contains 106 pre-operative samples and 71
+twelve-month samples; **71 subjects have both time points**.
 
 This is **not** a forecast of obesity, diabetes, weight loss, or clinical events.
-MTBLS242 does not provide a future disease-incidence outcome or BMI/weight-loss
-target in the supplied metadata. A clinical risk forecast requires those future
-outcomes to be linked at subject level.
+MTBLS242 does not provide a future disease-incidence outcome or BMI/weight-loss target in
+the supplied metadata. A clinical risk forecast requires those future outcomes to be
+linked at subject level.
 
-Two models are included:
+## Two experiments
 
-1. `forecast_mtbls242.py` forecasts the continuous 12-month NMR profile.
-2. `forecast_responder_pr_auc.py` forecasts a binary **strong metabolic
-   response**, enabling PR-AUC evaluation with monotonic constraints.
+**1. `forecast_mtbls242.py`** — continuous forecast of the 12-month NMR profile.
+Multi-output ridge regression, penalty selected inside each training fold, nested 5-fold
+CV across 71 subjects. Compared against the training-fold mean and a persistence
+forecast, each with a paired bootstrap interval.
 
-The binary outcome is fixed before fitting: at least **9 of 11**
-literature-directed obesity markers (≥80%) must move toward the expected
-healthier direction by 12 months.
+→ Not distinguishable from predicting the mean; does beat persistence.
+[`RESULTS.md`](RESULTS.md)
 
-## Model and evaluation
+**2. `forecast_responder_pr_auc.py`** — binary forecast of a strong 12-month metabolic
+response, evaluated by PR-AUC. Sign-constrained logistic regression fitted with L-BFGS-B
+under box constraints, 20 repeats × 5-fold stratified CV.
 
-- Inputs: 21 pre-operative metabolite abundances, transformed with `log1p`.
-- Targets: the same 21 metabolite abundances at 12 months.
-- Model: multi-output ridge regression.
-- Tuning: ridge penalty selected inside each training fold.
-- Evaluation: nested 5-fold cross-validation across 71 distinct subjects.
-- Comparators:
-  - training-fold mean at 12 months;
-  - persistence forecast (future value equals baseline value).
-- Metrics: MAE, RMSE, overall R², and per-metabolite R².
+→ No evidence of skill beyond regression to the mean.
+[`RESULTS_PR_AUC.md`](RESULTS_PR_AUC.md)
 
-Monotonic constraints are not imposed in this first forecast model. The earlier
-classification constraints describe a metabolite's direction relative to an
-obesity label; they do not establish that a higher baseline concentration must
-produce a higher or lower concentration after surgery. Applying those signs to
-this different input-output relationship would not be scientifically justified.
+## The outcome, and why it is residualized
 
-For the binary responder model, monotonic signs encode an explicit
-"opportunity to improve" assumption: a more obesity-associated baseline profile
-cannot reduce the modeled probability of a strong response. This is a modeling
-guardrail, not a causal claim, and still requires external validation.
+A responder is a subject for whom at least **6 of 11** literature-directed obesity
+markers improve **more than their own baseline predicts**: change is regressed on
+baseline per marker and the residual is used.
+
+Raw change cannot be the outcome here, because the baseline is also a feature. Across
+the 11 markers `corr(baseline, change)` has a median of −0.62 — a subject with an
+extreme baseline falls back toward the mean whether or not anything biological happened.
+Grading a model on raw change grades it on something it was handed.
+
+The residualization is part of the label, so it is fitted **inside each training fold**
+and applied to held-out subjects with the training fold's coefficients.
+
+The threshold of 6 was fixed before any model was fitted, as the value reproducing the
+originally reported prevalence exactly (31 of 71, 43.7%), so the corrected PR-AUC stays
+comparable to the retired one.
+
+> An earlier version of this analysis used raw change with a 9-of-11 threshold and
+> reported PR-AUC 0.671. That claim is withdrawn — see [`CORRECTION.md`](CORRECTION.md).
+
+## Monotonic constraints
+
+Monotonic signs come from obesity/insulin-resistance metabolomics literature, carried
+over from the `Bridge_ai_summit_nmr_2026` Experiment A constraint set. They are assigned
+from published findings, never from this cohort's own correlation signs.
+
+They encode an explicit "opportunity to improve" assumption: a more obesity-associated
+baseline profile cannot *reduce* the modelled probability of a strong response. This is a
+modelling guardrail, not a causal claim.
+
+Constraints are **not** imposed on the continuous forecast. A metabolite's direction
+relative to an obesity label does not establish that a higher baseline concentration must
+produce a higher or lower concentration after surgery, and applying those signs to a
+different input-output relationship would not be justified.
+
+In the current fit **8 of 11 constraints are binding** — pinned at exactly 0.0 because
+this cohort pulls the opposite way. That is only interpretable because the solver
+converges; the retired implementation could not distinguish a binding constraint from an
+optimizer that had stopped early.
+
+## Excluded features
+
+`isopropanol`, `methanol`, and `Dimethyl sulfone` are excluded by default. They are
+exogenous compounds, not obesity biology, and `Bridge_ai_summit_nmr_2026` flags
+isopropanol as a **surgical skin-prep contaminant** — confirmed here, pre-operative mean
+4.529 vs 12-month 3.205 (log1p). Their pre-operative level partly encodes "this sample
+was drawn in an operating theatre."
+
+`--include-artifacts` restores them for comparison against the legacy configuration.
 
 ## Run
 
-```powershell
+```bash
+python -m pip install -r requirements.txt
+
 python forecast_mtbls242.py
 python forecast_responder_pr_auc.py
+python figures.py
+python -m pytest tests/ -q
 ```
 
-Only NumPy and pandas are required. Install matplotlib to also create the plot:
+The analysis scripts need only NumPy, pandas, and SciPy. matplotlib is needed for
+`figures.py` alone.
 
-```powershell
-python -m pip install -r requirements.txt
-python forecast_mtbls242.py
-```
+### Flags
+
+| Flag | Effect |
+|---|---|
+| `--repeats N` | CV repeats for the responder model (default 20) |
+| `--null-reps N` | Pairing-destroyed null replicates (default 500) |
+| `--include-artifacts` | Keep the three exogenous compounds as features |
+| `--legacy-outcome` | Use the superseded baseline-dependent outcome |
+| `--output-dir PATH` | Where to write results |
+
+## Files
+
+| File | Purpose |
+|---|---|
+| [`controls.py`](controls.py) | Negative controls and bootstrap intervals, shared |
+| [`monotone_logistic.py`](monotone_logistic.py) | Sign-constrained logistic regression (L-BFGS-B) |
+| [`forecast_mtbls242.py`](forecast_mtbls242.py) | Continuous profile forecast |
+| [`forecast_responder_pr_auc.py`](forecast_responder_pr_auc.py) | Responder forecast |
+| [`figures.py`](figures.py) | Regenerates `Graph/` at 300 DPI |
+| [`METHODS.md`](METHODS.md) | Why each control exists |
+| [`CORRECTION.md`](CORRECTION.md) | The retired PR-AUC 0.671 claim |
+| `tests/` | 42 tests, each against a case with a known answer |
 
 ## Outputs
 
-Files are written to `outputs/`:
+`outputs/` (continuous):
+`summary.json`, `fold_metrics.csv`, `metabolite_metrics.csv`, `heldout_predictions.csv`,
+`paired_longitudinal_dataset.csv`, `subject_errors.npz`, `forecast_model.npz`,
+`forecast_observed_vs_predicted.png`.
 
-- `summary.json` — headline held-out metrics;
-- `fold_metrics.csv` — results for each outer fold;
-- `metabolite_metrics.csv` — MAE, RMSE, and R² for each metabolite;
-- `heldout_predictions.csv` — observed and held-out forecast values;
-- `paired_longitudinal_dataset.csv` — the 71 paired subject records;
-- `forecast_model.npz` — final model fitted on all paired subjects;
-- `forecast_observed_vs_predicted.png` — evaluation figure when matplotlib is installed;
-- `forecast_observed_vs_predicted.svg` — dependency-free fallback figure otherwise.
+`outputs_pr_auc/` (responder):
+`summary_pr_auc.json`, `fold_pr_auc.csv`, `heldout_responder_predictions.csv`,
+`monotone_coefficients.csv`, `monotone_responder_model.npz`, `null_distributions.npz`.
 
-Binary responder results are written to `outputs_pr_auc/`:
-
-- `summary_pr_auc.json` — held-out PR-AUC and monotonicity checks;
-- `fold_pr_auc.csv` — PR-AUC and prevalence baseline for each fold;
-- `heldout_responder_predictions.csv` — held-out probabilities and outcomes;
-- `monotone_coefficients.csv` — constraint and fitted coefficient per feature;
-- `monotone_responder_model.npz` — final fitted model;
-- `heldout_pr_curve.svg` — held-out precision–recall curve.
+Keys prefixed `CONTROL_` in the summary JSONs carry the negative controls; `VERDICT`
+states the conclusion those controls support.
 
 ## Limitations
 
-- The cohort contains only patients receiving bariatric surgery, so it does not
-  estimate outcomes under no surgery or general-population risk.
-- With 71 complete subjects, estimates have substantial uncertainty and require
-  external validation.
-- Forecasting a metabolic profile is not equivalent to forecasting a clinical
-  outcome.
-- Treatment type and clinical covariates are not included in the public sample
-  sheet used here.
+- The cohort is bariatric surgery patients only, so it estimates nothing about outcomes
+  without surgery or about the general population.
+- With 71 complete subjects, estimates carry substantial uncertainty and need external
+  validation. A small true effect would not be detectable here.
+- Forecasting a metabolic profile is not equivalent to forecasting a clinical outcome.
+- Treatment type and clinical covariates are absent from the public sample sheet.
+- The three mid time points (3, 6, 9 months) are unused; only preop and 12 months are
+  paired.
 
 ## Data provenance
 
-The included ISA-Tab sample sheet and metabolite abundance table were downloaded
-from the official EMBL-EBI MetaboLights public MTBLS242 directory.
+The included ISA-Tab sample sheet and metabolite abundance table were downloaded from the
+official EMBL-EBI MetaboLights public MTBLS242 directory.
