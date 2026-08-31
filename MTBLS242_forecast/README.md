@@ -90,12 +90,20 @@ python -m pip install -r requirements.txt
 python forecast_mtbls242.py
 python forecast_responder_pr_auc.py
 python figures.py
-python make_deck.py
+python make_deck.py --lang en        # English deck
+python make_deck.py --lang th        # Thai deck
 python -m pytest tests/ -q
 ```
 
 The analysis scripts need only NumPy, pandas, and SciPy. matplotlib is needed for
 `figures.py`, and python-pptx for `make_deck.py`.
+
+Two decks are built from the same layout and the same numbers — only the wording differs:
+`mtbls242_forecast_correction.pptx` (English) and `mtbls242_forecast_correction_th.pptx`
+(Thai). The Thai deck defaults to **Sukhumvit Set**, which ships with macOS; pass
+`--font Tahoma` for a face present on both macOS and Windows. Figures keep English axis
+labels in both, since relabelling them per language would fork the figure pipeline for no
+scientific gain.
 
 ### Flags
 
@@ -116,7 +124,8 @@ The analysis scripts need only NumPy, pandas, and SciPy. matplotlib is needed fo
 | [`forecast_mtbls242.py`](forecast_mtbls242.py) | Continuous profile forecast |
 | [`forecast_responder_pr_auc.py`](forecast_responder_pr_auc.py) | Responder forecast |
 | [`figures.py`](figures.py) | Regenerates `Graph/` at 300 DPI |
-| [`make_deck.py`](make_deck.py) | Builds the presentation deck from the summary JSONs |
+| [`make_deck.py`](make_deck.py) | Builds the presentation decks from the summary JSONs |
+| [`deck_content.py`](deck_content.py) | Slide copy, English + Thai (layout stays shared) |
 | [`METHODS.md`](METHODS.md) | Why each control exists |
 | [`CORRECTION.md`](CORRECTION.md) | The retired PR-AUC 0.671 claim |
 | `tests/` | 42 tests, each against a case with a known answer |

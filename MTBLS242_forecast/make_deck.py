@@ -20,6 +20,8 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 from pptx.util import Emu, Inches, Pt
 
+from deck_content import CONTENT, DEFAULT_FONT
+
 ROOT = Path(__file__).resolve().parent
 
 INK = RGBColor(0x1A, 0x1A, 0x1A)
@@ -37,7 +39,7 @@ def _blank(prs):
 
 
 def _text(slide, left, top, width, height, text, size, *, bold=False, color=INK,
-          align=PP_ALIGN.LEFT, italic=False, spacing=1.0):
+          align=PP_ALIGN.LEFT, italic=False, spacing=1.0, font="Helvetica Neue"):
     box = slide.shapes.add_textbox(left, top, width, height)
     frame = box.text_frame
     frame.word_wrap = True
@@ -51,7 +53,7 @@ def _text(slide, left, top, width, height, text, size, *, bold=False, color=INK,
         run.font.bold = bold
         run.font.italic = italic
         run.font.color.rgb = color
-        run.font.name = "Helvetica Neue"
+        run.font.name = font
     return box
 
 
@@ -66,11 +68,20 @@ def _rule(slide, top, color=RULE, height=Emu(9525)):
     return bar
 
 
-def _heading(slide, title, kicker=None):
-    if kicker:
-        _text(slide, MARGIN, Inches(0.42), W - 2 * MARGIN, Inches(0.3), kicker.upper(),
-              11, bold=True, color=MUTED)
-    _text(slide, MARGIN, Inches(0.72), W - 2 * MARGIN, Inches(0.9), title, 30, bold=True)
+def _binder(font):
+    """Return `_text` with the deck's font bound, so no call site can forget it."""
+    def bound(*a, **kw):
+        kw.setdefault("font", font)
+        return _text(*a, **kw)
+    return bound
+
+
+def _heading(slide, title, kicker, font):
+    # Thai has no case distinction, so .upper() is a no-op there rather than a problem.
+    _text(slide, MARGIN, Inches(0.42), W - 2 * MARGIN, Inches(0.3), kicker.upper(),
+          11, bold=True, color=MUTED, font=font)
+    _text(slide, MARGIN, Inches(0.72), W - 2 * MARGIN, Inches(0.9), title, 27,
+          bold=True, font=font)
     _rule(slide, Inches(1.62))
 
 
@@ -88,18 +99,18 @@ def _fit_picture(slide, path, top, max_h, max_w=None):
     return pic
 
 
-def _metric_row(slide, top, items):
+def _metric_row(slide, top, items, font):
     """Big-number row: [(value, label, color), ...]"""
     span = (W - 2 * MARGIN) / len(items)
     for i, (value, label, color) in enumerate(items):
         left = int(MARGIN + i * span)
         _text(slide, left, top, int(span), Inches(0.8), value, 40, bold=True,
-              color=color, align=PP_ALIGN.CENTER)
+              color=color, align=PP_ALIGN.CENTER, font=font)
         _text(slide, left, top + Inches(0.78), int(span), Inches(0.6), label, 11,
-              color=MUTED, align=PP_ALIGN.CENTER)
+              color=MUTED, align=PP_ALIGN.CENTER, font=font)
 
 
-def _table(slide, left, top, width, rows, col_widths, *, header=True, size=12):
+def _table(slide, left, top, width, rows, col_widths, *, font, header=True, size=12):
     from pptx.util import Emu as _Emu
 
     shape = slide.shapes.add_table(len(rows), len(rows[0]), left, top, width,
@@ -119,7 +130,7 @@ def _table(slide, left, top, width, rows, col_widths, *, header=True, size=12):
             run.font.size = Pt(size)
             run.font.bold = header and r == 0
             run.font.color.rgb = INK if not (header and r == 0) else MUTED
-            run.font.name = "Helvetica Neue"
+            run.font.name = font
             cell.fill.solid()
             cell.fill.fore_color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
             cell.margin_left = Inches(0.08)
@@ -128,232 +139,146 @@ def _table(slide, left, top, width, rows, col_widths, *, header=True, size=12):
     return table
 
 
-def build(pr, cont, graph: Path, out: Path) -> Path:
+def build(pr, cont, graph: Path, out: Path, c: dict, font: str) -> Path:
     prs = Presentation()
     prs.slide_width, prs.slide_height = W, H
+    text = _binder(font)
 
     # ---------------------------------------------------------------- title
     s = _blank(prs)
-    _text(s, MARGIN, Inches(2.1), W - 2 * MARGIN, Inches(0.4),
-          "MTBLS242 · 12-MONTH METABOLIC FORECAST", 13, bold=True, color=MUTED)
-    _text(s, MARGIN, Inches(2.6), W - 2 * MARGIN, Inches(1.6),
-          "What the controls found", 54, bold=True)
+    text(s, MARGIN, Inches(2.1), W - 2 * MARGIN, Inches(0.4),
+         c["title_eyebrow"], 13, bold=True, color=MUTED)
+    text(s, MARGIN, Inches(2.6), W - 2 * MARGIN, Inches(1.6), c["title"], 50, bold=True)
     _rule(s, Inches(4.3))
-    _text(s, MARGIN, Inches(4.6), W - 2 * MARGIN, Inches(1.2),
-          "A reported PR-AUC of 0.671 turned out to be regression to the mean.\n"
-          "This is how it was caught, and what the corrected analysis says.",
-          17, color=MUTED, spacing=1.3)
+    text(s, MARGIN, Inches(4.6), W - 2 * MARGIN, Inches(1.2), c["title_sub"], 17,
+         color=MUTED, spacing=1.3)
 
     # ---------------------------------------------------------------- question
     s = _blank(prs)
-    _heading(s, "The question", "setup")
-    _text(s, MARGIN, Inches(2.0), W - 2 * MARGIN, Inches(1.0),
-          "Can a pre-operative serum ¹H-NMR profile forecast what happens to a\n"
-          "bariatric surgery patient 12 months later?", 22, spacing=1.35)
-    _metric_row(s, Inches(3.5), [
-        ("71", "subjects with paired\npreop + 12-month samples", INK),
-        ("21", "quantified metabolites\n(serum ¹H-NMR)", INK),
-        ("31", "labelled strong responders\n(43.7% prevalence)", INK),
-    ])
-    _text(s, MARGIN, Inches(5.9), W - 2 * MARGIN, Inches(0.9),
-          "MetaboLights MTBLS242. Sample IDs encode a stable subject code, which is what "
-          "makes a genuine\nlongitudinal pairing possible. No clinical outcome exists in "
-          "the public metadata — no weight loss, no remission.",
-          12, color=MUTED, spacing=1.3)
+    _heading(s, c["q_title"], c["kicker_setup"], font)
+    text(s, MARGIN, Inches(2.0), W - 2 * MARGIN, Inches(1.0), c["q_body"], 21, spacing=1.35)
+    _metric_row(s, Inches(3.5), list(zip(
+        [str(pr["n_subjects"]), "21", str(pr["n_responders"])],
+        c["q_metrics"], [INK, INK, INK])), font)
+    text(s, MARGIN, Inches(5.9), W - 2 * MARGIN, Inches(0.9), c["q_foot"], 12,
+         color=MUTED, spacing=1.3)
 
     # ---------------------------------------------------------------- the claim
     s = _blank(prs)
-    _heading(s, "The result that was reported", "the claim")
-    _metric_row(s, Inches(2.3), [
-        ("0.671", "held-out PR-AUC", RED),
-        ("0.437", "prevalence baseline", MUTED),
-        ("1.54×", "reported lift", RED),
-    ])
-    _text(s, MARGIN, Inches(4.2), W - 2 * MARGIN, Inches(1.4),
-          "Read as: pre-operative NMR carries signal about who will respond.\n\n"
-          "It does not. Four things were wrong, and three of them are invisible to the "
-          "checks people normally run.",
-          18, spacing=1.35)
+    _heading(s, c["claim_title"], c["kicker_claim"], font)
+    _metric_row(s, Inches(2.3), list(zip(
+        ["0.671", "0.437", "1.54×"], c["claim_metrics"], [RED, MUTED, RED])), font)
+    text(s, MARGIN, Inches(4.2), W - 2 * MARGIN, Inches(1.4), c["claim_body"], 18,
+         spacing=1.35)
 
     # ---------------------------------------------------------------- defect 1
     s = _blank(prs)
-    _heading(s, "Defect 1 — the outcome was built from the features", "why it was wrong")
-    _text(s, MARGIN, Inches(1.85), W - 2 * MARGIN, Inches(0.7),
-          "A responder was defined as “≥9 of 11 markers moved in the healthy direction”, "
-          "measured as 12-month minus pre-operative —\non the same 11 metabolites the "
-          "model was given as inputs.", 13, color=MUTED, spacing=1.3)
+    _heading(s, c["d1_title"], c["kicker_wrong"], font)
+    text(s, MARGIN, Inches(1.85), W - 2 * MARGIN, Inches(0.7), c["d1_lead"], 12.5,
+         color=MUTED, spacing=1.3)
     _fit_picture(s, graph / "regression_to_the_mean.png", Inches(2.75), Inches(3.55))
-    _text(s, MARGIN, Inches(6.55), W - 2 * MARGIN, Inches(0.6),
-          "An extreme baseline falls back toward the mean whether or not anything "
-          "biological happened. The model was graded on something it was handed.",
-          13, bold=True, spacing=1.25)
+    text(s, MARGIN, Inches(6.55), W - 2 * MARGIN, Inches(0.6), c["d1_punch"], 13,
+         bold=True, spacing=1.25)
 
     # ---------------------------------------------------------------- defect 2
     s = _blank(prs)
-    _heading(s, "Defect 2 — it scored below its own no-signal null", "why it was wrong")
-    _text(s, MARGIN, Inches(1.85), W - 2 * MARGIN, Inches(0.9),
-          "Shuffle which 12-month profile belongs to which subject, then rebuild the "
-          "outcome from scratch.\nNo forecastable signal can survive that — every real "
-          "subject-level relationship is destroyed.", 14, spacing=1.3)
-    _metric_row(s, Inches(3.4), [
-        ("1.57×", "observed lift", RED),
-        ("2.04×", "null median lift", BLUE),
-        ("2.51×", "null 95th percentile", BLUE),
-    ])
-    _text(s, MARGIN, Inches(5.5), W - 2 * MARGIN, Inches(1.2),
-          "The real data scored below the middle of a distribution in which\n"
-          "no forecastable signal can exist.", 22, bold=True, color=RED, spacing=1.3)
+    _heading(s, c["d2_title"], c["kicker_wrong"], font)
+    text(s, MARGIN, Inches(1.85), W - 2 * MARGIN, Inches(0.9), c["d2_lead"], 13.5,
+         spacing=1.3)
+    _metric_row(s, Inches(3.4), list(zip(
+        ["1.57×", "2.04×", "2.51×"], c["d2_metrics"], [RED, BLUE, BLUE])), font)
+    text(s, MARGIN, Inches(5.5), W - 2 * MARGIN, Inches(1.2), c["d2_punch"], 21,
+         bold=True, color=RED, spacing=1.3)
 
     # ---------------------------------------------------------------- defect 3
     s = _blank(prs)
-    _heading(s, "Defect 3 — a permutation test would have waved it through",
-             "the methodological point")
-    _text(s, MARGIN, Inches(2.0), W - 2 * MARGIN, Inches(0.6),
-          "On the retired outcome, the standard label-permutation test returns", 16,
-          color=MUTED)
-    _text(s, MARGIN, Inches(2.6), W - 2 * MARGIN, Inches(1.0), "p = 0.002", 52,
-          bold=True, color=RED)
-    _text(s, MARGIN, Inches(3.9), W - 2 * MARGIN, Inches(2.2),
-          "It is not malfunctioning. The baseline genuinely does rank those labels better "
-          "than chance.\n\nBut it holds the outcome fixed, so it cannot see that the "
-          "outcome was manufactured from the\nfeatures in the first place.",
-          17, spacing=1.35)
-    _rule(s, Inches(5.85))
-    _text(s, MARGIN, Inches(6.05), W - 2 * MARGIN, Inches(0.9),
-          "A permutation test cannot validate a change-score outcome when the baseline is "
-          "also a feature.\nOnly destroying the pairing can.", 15, bold=True, spacing=1.3)
+    _heading(s, c["d3_title"], c["kicker_point"], font)
+    text(s, MARGIN, Inches(2.0), W - 2 * MARGIN, Inches(0.6), c["d3_lead"], 15.5,
+         color=MUTED)
+    text(s, MARGIN, Inches(2.6), W - 2 * MARGIN, Inches(1.0), "p = 0.002", 50,
+         bold=True, color=RED)
+    text(s, MARGIN, Inches(3.9), W - 2 * MARGIN, Inches(2.2), c["d3_body"], 16,
+         spacing=1.35)
+    _rule(s, Inches(5.95))
+    text(s, MARGIN, Inches(6.15), W - 2 * MARGIN, Inches(0.9), c["d3_punch"], 14.5,
+         bold=True, spacing=1.3)
 
     # ---------------------------------------------------------------- defect 4
     s = _blank(prs)
-    _heading(s, "Defect 4 — the model had never converged", "why it was wrong")
-    _metric_row(s, Inches(2.2), [
-        ("0.018", "largest standardized\ncoefficient", RED),
-        ("0.653", "PR-AUC of the\n“trained” model", RED),
-        ("0.653", "PR-AUC of a scorer\nthat fits nothing", BLUE),
-    ])
-    _text(s, MARGIN, Inches(4.3), W - 2 * MARGIN, Inches(1.8),
-          "Fixed-step projected gradient descent, capped at 6000 iterations, against a "
-          "penalty that was not\nscaled to sample size. It stopped as a near-constant "
-          "model.\n\nIts ranking coincided exactly with an unweighted sum of the markers — "
-          "which is why summing signed\nbaseline z-scores reproduces its score to three "
-          "decimals. Every “monotonic constraint” it reported\nwas vacuous: the "
-          "coefficients had barely left zero.", 14, spacing=1.3)
+    _heading(s, c["d4_title"], c["kicker_wrong"], font)
+    _metric_row(s, Inches(2.2), list(zip(
+        ["0.018", "0.653", "0.653"], c["d4_metrics"], [RED, RED, BLUE])), font)
+    text(s, MARGIN, Inches(4.3), W - 2 * MARGIN, Inches(1.8), c["d4_body"], 13.5,
+         spacing=1.3)
 
     # ---------------------------------------------------------------- what replaced it
     s = _blank(prs)
-    _heading(s, "What replaced it", "the fix")
-    _table(s, MARGIN, Inches(1.95), W - 2 * MARGIN, [
-        ["", "Retired", "Current"],
-        ["Outcome", "≥9/11 markers move in the\nliterature direction",
-         "≥6/11 improve MORE than their\nown baseline predicts"],
-        ["Residualization", "none", "change regressed on baseline,\nfitted inside each fold"],
-        ["Prevalence", "0.437 (31/71)", "0.437 (31/71) — held constant"],
-        ["Solver", "projected gradient, unconverged", "L-BFGS-B box constraints, 100%"],
-        ["Features", "21, incl. 3 exogenous artifacts", "18, artifacts quarantined"],
-        ["Evaluation", "one 5-fold draw, seed 42", "20 repeats × 5-fold"],
-        ["Controls", "none", "3 controls + bootstrap intervals"],
-    ], [1.1, 2.0, 2.2], size=11)
-    _text(s, MARGIN, Inches(5.75), W - 2 * MARGIN, Inches(1.1),
-          "The threshold moved from 9 to 6 because residualization halves the per-marker "
-          "improvement rate by construction.\nIt was fixed before any model was fitted, as "
-          "the value that reproduces the original prevalence exactly — so the\ncorrected "
-          "number stays directly comparable rather than confounded by a shift in base rate.",
-          12, color=MUTED, spacing=1.3)
+    _heading(s, c["fix_title"], c["kicker_fix"], font)
+    _table(s, MARGIN, Inches(1.95), W - 2 * MARGIN, c["fix_table"],
+           [1.1, 2.0, 2.2], font=font, size=11)
+    text(s, MARGIN, Inches(5.75), W - 2 * MARGIN, Inches(1.1), c["fix_foot"], 11.5,
+         color=MUTED, spacing=1.3)
 
     # ---------------------------------------------------------------- corrected result
     s = _blank(prs)
-    _heading(s, "The corrected result", "what it actually says")
-    _metric_row(s, Inches(1.95), [
-        (f"{pr['model_pr_auc_mean']:.3f}", "model PR-AUC\n(20 × 5-fold)", INK),
-        (f"{pr['CONTROL_trivial_scorer_pr_auc']:.3f}",
-         "no-learning scorer\n— beats the model", BLUE),
-        (f"{pr['CONTROL_permutation_p_value']:.3f}", "permutation\np-value", MUTED),
-    ])
+    _heading(s, c["res_title"], c["kicker_says"], font)
+    _metric_row(s, Inches(1.95), list(zip(
+        [f"{pr['model_pr_auc_mean']:.3f}",
+         f"{pr['CONTROL_trivial_scorer_pr_auc']:.3f}",
+         f"{pr['CONTROL_permutation_p_value']:.3f}"],
+        c["res_metrics"], [INK, BLUE, MUTED])), font)
     _fit_picture(s, graph / "pr_auc_curve.png", Inches(3.75), Inches(2.85))
-    _text(s, MARGIN, Inches(6.75), W - 2 * MARGIN, Inches(0.6),
-          pr["VERDICT"], 20, bold=True, color=RED, align=PP_ALIGN.CENTER)
+    verdict = c["verdict_map"].get(pr["VERDICT"], pr["VERDICT"])
+    text(s, MARGIN, Inches(6.75), W - 2 * MARGIN, Inches(0.6), verdict, 17,
+         bold=True, color=RED, align=PP_ALIGN.CENTER)
 
     # ---------------------------------------------------------------- three agree
     s = _blank(prs)
-    _heading(s, "Three independent controls agree", "what it actually says")
-    rows = [
-        ("1", "Observed lift 1.11× sits INSIDE the no-signal null",
-         "null median 1.04×, 95th percentile 1.24× — it does not clear it"),
-        ("2", "The trained model is WORSE than a scorer that fits nothing",
-         "gap −0.039, 95% CI [−0.058, −0.023] — the interval excludes zero"),
-        ("3", "Permutation p = 0.894",
-         "against the corrected outcome, the ranking is indistinguishable from chance"),
-    ]
+    _heading(s, c["agree_title"], c["kicker_says"], font)
     top = Inches(2.1)
-    for number, headline, detail in rows:
-        _text(s, MARGIN, top, Inches(0.6), Inches(0.6), number, 30, bold=True, color=RED)
-        _text(s, MARGIN + Inches(0.7), top + Inches(0.02), W - MARGIN * 2 - Inches(0.7),
-              Inches(0.4), headline, 17, bold=True)
-        _text(s, MARGIN + Inches(0.7), top + Inches(0.45), W - MARGIN * 2 - Inches(0.7),
-              Inches(0.4), detail, 13, color=MUTED)
+    for i, (headline, detail) in enumerate(c["agree_rows"], start=1):
+        text(s, MARGIN, top, Inches(0.6), Inches(0.6), str(i), 30, bold=True, color=RED)
+        text(s, MARGIN + Inches(0.7), top + Inches(0.02), W - MARGIN * 2 - Inches(0.7),
+             Inches(0.4), headline, 16, bold=True)
+        text(s, MARGIN + Inches(0.7), top + Inches(0.45), W - MARGIN * 2 - Inches(0.7),
+             Inches(0.4), detail, 12.5, color=MUTED)
         top += Inches(1.25)
     _rule(s, Inches(6.1))
-    _text(s, MARGIN, Inches(6.3), W - 2 * MARGIN, Inches(0.8),
-          "8 of 11 literature constraints are binding — pinned at exactly 0.0 because this "
-          "cohort pulls the other way.\nObesity-status directions largely do not transfer "
-          "to forecasting 12-month change here.", 13, color=MUTED, spacing=1.3)
+    text(s, MARGIN, Inches(6.3), W - 2 * MARGIN, Inches(0.8), c["agree_foot"], 12.5,
+         color=MUTED, spacing=1.3)
 
     # ---------------------------------------------------------------- continuous
     s = _blank(prs)
-    _heading(s, "The continuous forecast, same treatment", "the other experiment")
+    _heading(s, c["cont_title"], c["kicker_other"], font)
     _fit_picture(s, graph / "continuous_forecast_mae.png", Inches(2.0), Inches(3.7))
-    _text(s, MARGIN, Inches(5.95), W - 2 * MARGIN, Inches(1.2),
-          f"Forecasting the 12-month profile beats predicting the training-fold mean by "
-          f"{abs(cont['CONTROL_mae_gap_vs_mean_baseline']):.4f} MAE — but the 95% "
-          f"interval\nspans zero, so it is not distinguishable from noise at n=71. It does "
-          f"clearly beat persistence.\n\nThe pooled R² of {cont['r2_overall']:.3f} is not "
-          f"performance: it is driven by scale differences between metabolites. "
-          f"Median per-metabolite R² is {cont['median_metabolite_r2']:.3f}.",
-          13, spacing=1.3)
+    text(s, MARGIN, Inches(5.95), W - 2 * MARGIN, Inches(1.2),
+         c["cont_body"].format(
+             gap=abs(cont["CONTROL_mae_gap_vs_mean_baseline"]),
+             r2=cont["r2_overall"],
+             medr2=cont["median_metabolite_r2"]),
+         12.5, spacing=1.3)
 
     # ---------------------------------------------------------------- reusable
     s = _blank(prs)
-    _heading(s, "The controls, reusable", "takeaway")
-    items = [
-        ("No-learning scorer", "Sum of signed, z-scored baseline markers. Catches a model "
-         "that has not converged or has learned nothing its inputs did not already say. "
-         "Every trained model is reported next to it."),
-        ("Pairing-destroyed null", "Shuffle which future belongs to which subject, then "
-         "rebuild the outcome from scratch. Catches an outcome manufactured from the "
-         "features. This is the one that mattered."),
-        ("Label-permutation test", "Necessary, and demonstrably not sufficient — it "
-         "returned p = 0.002 on the broken setup."),
-        ("Paired bootstrap intervals", "On every model-versus-baseline gap, resampling "
-         "subjects together. A 2.4% edge without an interval is not a result."),
-    ]
+    _heading(s, c["reuse_title"], c["kicker_takeaway"], font)
     top = Inches(2.0)
-    for name, detail in items:
-        _text(s, MARGIN, top, Inches(3.3), Inches(0.4), name, 15, bold=True, color=BLUE)
-        _text(s, MARGIN + Inches(3.5), top, W - MARGIN * 2 - Inches(3.5), Inches(0.8),
-              detail, 12.5, spacing=1.25)
+    for name, detail in c["reuse_items"]:
+        text(s, MARGIN, top, Inches(3.3), Inches(0.4), name, 14.5, bold=True, color=BLUE)
+        text(s, MARGIN + Inches(3.5), top, W - MARGIN * 2 - Inches(3.5), Inches(0.8),
+             detail, 12, spacing=1.25)
         top += Inches(1.1)
     _rule(s, Inches(6.5))
-    _text(s, MARGIN, Inches(6.7), W - 2 * MARGIN, Inches(0.5),
-          "Reach for the pairing-destroyed null in any longitudinal change-score analysis "
-          "where baseline is also a feature.", 13, bold=True)
+    text(s, MARGIN, Inches(6.7), W - 2 * MARGIN, Inches(0.5), c["reuse_foot"], 12.5,
+         bold=True)
 
     # ---------------------------------------------------------------- scope
     s = _blank(prs)
-    _heading(s, "What this does not say", "honest scope")
-    _text(s, MARGIN, Inches(2.1), W - 2 * MARGIN, Inches(2.6),
-          "It does not say pre-operative NMR cannot forecast metabolic response.\n\n"
-          "It says this cohort, at n=71, with this outcome, does not demonstrate that it "
-          "does.\n\nA cohort with linked clinical outcomes — weight loss, remission, "
-          "treatment type — and enough\nsubjects to estimate a small effect could still "
-          "find one. MTBLS242's public metadata has none.",
-          18, spacing=1.4)
-    _rule(s, Inches(5.2))
-    _text(s, MARGIN, Inches(5.4), W - 2 * MARGIN, Inches(1.4),
-          "Also unresolved: (R)-3-Hydroxybutyric acid is 45% zeros — below-detection "
-          "readings that log1p maps to exactly 0.\nBariatric patients only, so nothing "
-          "about the general population or about outcomes without surgery.\n"
-          "A metabolite profile is not a clinical outcome.",
-          12, color=MUTED, spacing=1.3)
+    _heading(s, c["scope_title"], c["kicker_scope"], font)
+    text(s, MARGIN, Inches(2.1), W - 2 * MARGIN, Inches(2.6), c["scope_body"], 17,
+         spacing=1.4)
+    _rule(s, Inches(5.35))
+    text(s, MARGIN, Inches(5.55), W - 2 * MARGIN, Inches(1.4), c["scope_foot"], 11.5,
+         color=MUTED, spacing=1.3)
 
     prs.save(str(out))
     return out
@@ -361,16 +286,26 @@ def build(pr, cont, graph: Path, out: Path) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lang", choices=sorted(CONTENT), default="en",
+                        help="Deck language. Figures keep English axis labels in both.")
+    parser.add_argument("--font", default=None,
+                        help="Override the font. Thai needs a Thai-capable face; the "
+                             "default is Sukhumvit Set, which ships with macOS. Use "
+                             "Tahoma for a face present on both macOS and Windows.")
     parser.add_argument("--pr-dir", type=Path, default=ROOT / "outputs_pr_auc")
     parser.add_argument("--continuous-dir", type=Path, default=ROOT / "outputs")
     parser.add_argument("--graph-dir", type=Path, default=ROOT / "Graph")
-    parser.add_argument("--out", type=Path, default=ROOT / "mtbls242_forecast_correction.pptx")
+    parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
+
+    content = CONTENT[args.lang]
+    font = args.font or DEFAULT_FONT[args.lang]
+    out = args.out or (ROOT / content["filename"])
 
     pr = json.loads((args.pr_dir / "summary_pr_auc.json").read_text())
     cont = json.loads((args.continuous_dir / "summary.json").read_text())
-    out = build(pr, cont, args.graph_dir, args.out)
-    print(f"wrote {out}")
+    build(pr, cont, args.graph_dir, out, content, font)
+    print(f"wrote {out}  (lang={args.lang}, font={font})")
 
 
 if __name__ == "__main__":
